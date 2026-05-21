@@ -13,6 +13,7 @@
     "resolved_price": 0.0,
     "resolved_outcome": "NO",
     "called_direction": "NO",
+    "polymarket_url": "https://polymarket.com/event/what-price-will-bitcoin-hit-on-may-20",
     "resolved_at": "2026-05-21T04:00:00Z"
   },
   {
@@ -29,6 +30,7 @@
     "resolved_price": 0.0,
     "resolved_outcome": "NO",
     "called_direction": "NO",
+    "polymarket_url": "https://polymarket.com/event/what-price-will-ethereum-hit-on-may-20",
     "resolved_at": "2026-05-21T04:00:00Z"
   },
   {
@@ -45,6 +47,7 @@
     "resolved_price": 0.0,
     "resolved_outcome": "DOWN",
     "called_direction": "DOWN",
+    "polymarket_url": "https://polymarket.com/event/bitcoin-up-or-down-on-may-21-2026",
     "resolved_at": "2026-05-21T16:00:00Z"
   },
   {
@@ -61,6 +64,7 @@
     "resolved_price": 1.0,
     "resolved_outcome": "UP",
     "called_direction": "UP",
+    "polymarket_url": "https://polymarket.com/event/solana-up-or-down-on-may-21-2026",
     "resolved_at": "2026-05-21T16:00:00Z"
   },
   {
@@ -76,7 +80,8 @@
     "resolution_status": "PENDING",
     "resolved_price": 0.0005,
     "resolved_outcome": null,
-    "called_direction": "DOWN"
+    "called_direction": "DOWN",
+    "polymarket_url": "https://polymarket.com/event/spx-opens-up-or-down-on-may-21-2026"
   },
   {
     "date": "2026-05-21T17:43:25.619441+00:00",
@@ -92,6 +97,7 @@
     "resolved_price": 1.0,
     "resolved_outcome": "UP",
     "called_direction": "UP",
+    "polymarket_url": "https://polymarket.com/event/spy-up-or-down-on-may-21-2026",
     "resolved_at": "2026-05-21T20:00:00Z"
   },
   {
@@ -108,6 +114,7 @@
     "resolved_price": 1.0,
     "resolved_outcome": "YES",
     "called_direction": "YES",
+    "polymarket_url": "https://polymarket.com/event/googl-close-above-on-may-21-2026",
     "resolved_at": "2026-05-21T20:00:00Z"
   },
   {
@@ -124,6 +131,7 @@
     "resolved_price": 1.0,
     "resolved_outcome": "UP",
     "called_direction": "UP",
+    "polymarket_url": "https://polymarket.com/event/pltr-up-or-down-on-may-21-2026",
     "resolved_at": "2026-05-21T20:00:00Z"
   },
   {
@@ -140,6 +148,7 @@
     "resolved_price": 0.0,
     "resolved_outcome": "DOWN",
     "called_direction": "DOWN",
+    "polymarket_url": "https://polymarket.com/event/dax-up-or-down-on-may-21-2026",
     "resolved_at": "2026-05-21T20:00:00Z"
   },
   {
@@ -155,7 +164,8 @@
     "resolution_status": "PENDING",
     "resolved_price": 0.0005,
     "resolved_outcome": null,
-    "called_direction": "NO"
+    "called_direction": "NO",
+    "polymarket_url": "https://polymarket.com/event/what-price-will-bitcoin-hit-on-may-21"
   },
   {
     "date": "2026-05-21T20:52:15.815759+00:00",
@@ -170,7 +180,8 @@
     "resolution_status": "PENDING",
     "resolved_price": 0.001,
     "resolved_outcome": null,
-    "called_direction": "NO"
+    "called_direction": "NO",
+    "polymarket_url": "https://polymarket.com/event/what-price-will-ethereum-hit-on-may-21"
   },
   {
     "date": "2026-05-21T21:56:40.979590+00:00",
@@ -185,6 +196,7 @@
     "resolution_status": "PENDING",
     "resolved_price": 0.0035,
     "resolved_outcome": null,
-    "called_direction": "NO"
+    "called_direction": "NO",
+    "polymarket_url": "https://polymarket.com/event/what-price-will-solana-hit-on-may-21"
   }
 ]
