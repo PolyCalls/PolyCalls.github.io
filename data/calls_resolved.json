@@ -77,11 +77,12 @@
     "model": "gemma3:12b",
     "tweet_count": 1,
     "posted": true,
-    "resolution_status": "PENDING",
-    "resolved_price": 0.0005,
-    "resolved_outcome": null,
+    "resolution_status": "WIN",
+    "resolved_price": 0.0,
+    "resolved_outcome": "DOWN",
     "called_direction": "DOWN",
-    "polymarket_url": "https://polymarket.com/event/spx-opens-up-or-down-on-may-21-2026"
+    "polymarket_url": "https://polymarket.com/event/spx-opens-up-or-down-on-may-21-2026",
+    "resolved_at": "2026-05-21T20:00:00Z"
   },
   {
     "date": "2026-05-21T17:43:25.619441+00:00",
@@ -178,7 +179,7 @@
     "tweet_count": 1,
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.001,
+    "resolved_price": 0.0015,
     "resolved_outcome": null,
     "called_direction": "NO",
     "polymarket_url": "https://polymarket.com/event/what-price-will-ethereum-hit-on-may-21"
@@ -194,7 +195,7 @@
     "tweet_count": 1,
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.0035,
+    "resolved_price": 0.004,
     "resolved_outcome": null,
     "called_direction": "NO",
     "polymarket_url": "https://polymarket.com/event/what-price-will-solana-hit-on-may-21"
@@ -210,9 +211,25 @@
     "tweet_count": 1,
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.0035,
+    "resolved_price": 0.004,
     "resolved_outcome": null,
     "called_direction": "NO",
     "polymarket_url": "https://polymarket.com/event/what-price-will-xrp-hit-on-may-21"
+  },
+  {
+    "date": "2026-05-21T23:52:11.106279+00:00",
+    "market_id": "daily_506387",
+    "question": "Bitcoin Up or Down on May 22?",
+    "yes_price": 0.695,
+    "edge_score": 109.0,
+    "category": "Crypto",
+    "model": "gemma3:12b",
+    "tweet_count": 1,
+    "posted": true,
+    "resolution_status": "PENDING",
+    "resolved_price": 0.695,
+    "resolved_outcome": null,
+    "called_direction": "UP",
+    "polymarket_url": "https://polymarket.com/event/bitcoin-up-or-down-on-may-22-2026"
   }
 ]
