@@ -297,6 +297,123 @@
 
   .empty { padding: 24px 16px; text-align: center; color: var(--muted2); font-size: 12px; }
   .err { margin: 8px 10px; background: var(--red-bg); border: 1px solid var(--red-bd); color: var(--red); padding: 8px 12px; border-radius: 8px; font-size: 12px; }
+
+  /* ── MOBILE RESPONSIVE ── */
+  @media (max-width: 768px) {
+    /* App becomes scrollable, not fixed height */
+    html, body { overflow: auto; height: auto; }
+    .app {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      min-height: 100vh;
+      overflow: visible;
+    }
+
+    /* Topbar: hide timestamp, keep logo + live pill + refresh */
+    .topbar { padding: 0 14px; }
+    .last-up { display: none; }
+    .nav-wordmark-img { height: 28px; }
+    .btn-ref { padding: 0 10px; font-size: 11px; }
+
+    /* Stats bar: wrap into 2 rows */
+    .stats-bar {
+      padding: 10px 14px;
+      flex-wrap: wrap;
+      height: auto;
+      gap: 10px;
+    }
+    .stat-main {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+      padding-right: 0;
+      gap: 12px;
+    }
+    .wr-num { font-size: 28px; }
+    .stat-cells { width: 100%; flex: none; }
+    .sc { padding: 0 8px; }
+    .sc-val { font-size: 18px; }
+
+    /* Body: single column, scrollable, no height constraint */
+    .body {
+      display: flex;
+      flex-direction: column;
+      overflow: visible;
+      height: auto;
+    }
+
+    /* Each column becomes a full-width block */
+    .col {
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      overflow: visible;
+      min-height: auto;
+    }
+    .col-body {
+      overflow: visible;
+      max-height: none;
+      height: auto;
+    }
+
+    /* Open calls: horizontal scroll carousel on mobile */
+    #open-col {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 8px 10px;
+      gap: 8px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .open-card {
+      min-width: 220px;
+      max-width: 220px;
+      margin: 0;
+      scroll-snap-align: start;
+      flex-shrink: 0;
+    }
+
+    /* Center col: table becomes card list */
+    .feed-table thead th:nth-child(4),
+    .feed-table td:nth-child(4) { display: none; } /* hide PRICE on mobile */
+    .tq { max-width: 150px; }
+
+    /* Right col (by category): show as horizontal row */
+    #right-col {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      overflow: visible;
+      padding: 8px 10px;
+      gap: 8px;
+    }
+    .bk-card {
+      flex: 1;
+      min-width: 100px;
+      margin: 0;
+    }
+
+    /* Footer: stack vertically */
+    .footer-bar {
+      flex-direction: column;
+      gap: 4px;
+      text-align: center;
+      padding: 10px 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    /* Even smaller phones */
+    .stat-cells { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .sc { border-right: 1px solid var(--border); }
+    .sc:last-child { border-right: none; }
+    .sc-val { font-size: 16px; }
+    .feed-table thead th:nth-child(5),
+    .feed-table td:nth-child(5) { display: none; } /* hide DATE too */
+  }
 </style>
 </head>
 <body>
