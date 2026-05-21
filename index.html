@@ -3,550 +3,543 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PolyCalls — Call Tracker Dashboard</title>
-<!-- Embedded data — auto-updated by resolve_calls.py after every pipeline run -->
+<title>PolyCalls — Live Call Tracker</title>
+<meta name="description" content="Real-time Polymarket prediction market calls. Full transparency. Every win. Every loss.">
 <script src="data/dashboard_data.js"></script>
 <style>
   :root {
-    /* PolyCalls brand palette */
-    --brand-blue-dark:  #1A3FBF;
-    --brand-blue:       #2B5CE6;
-    --brand-blue-mid:   #3D6FEF;
-    --brand-blue-light: #5A8AF5;
-    --brand-black:      #0A0A0F;
-    --brand-white:      #FFFFFF;
+    --blue:        #2B5CE6;
+    --blue-dark:   #1A3FBF;
+    --blue-light:  #4A7AF0;
+    --blue-pale:   #EEF3FE;
+    --blue-faint:  #F5F8FF;
 
-    /* Surface / layout */
-    --bg:       #080B14;
-    --surface:  #0F1320;
-    --surface2: #161C2E;
-    --surface3: #1E2540;
-    --border:   #222A45;
+    --green:       #16A34A;
+    --green-pale:  #DCFCE7;
+    --red:         #DC2626;
+    --red-pale:    #FEE2E2;
+    --yellow:      #D97706;
+    --yellow-pale: #FEF3C7;
+    --purple:      #7C3AED;
+    --purple-pale: #EDE9FE;
 
-    /* Text */
-    --text:     #E8ECF8;
-    --muted:    #6B75A0;
+    --bg:          #F8FAFF;
+    --surface:     #FFFFFF;
+    --surface2:    #F1F5FE;
+    --border:      #E2E8F8;
+    --border-dark: #C7D3F0;
 
-    /* Semantic */
-    --accent:   var(--brand-blue);
-    --accent-glow: rgba(43, 92, 230, 0.25);
-    --green:    #2ECC71;
-    --red:      #E74C3C;
-    --yellow:   #F39C12;
-    --purple:   #7B61FF;
-
-    --win-bg:     rgba(46, 204, 113, 0.07);
-    --loss-bg:    rgba(231, 76, 60, 0.07);
-    --pending-bg: rgba(243, 156, 18, 0.07);
+    --text:        #0F172A;
+    --text-mid:    #334155;
+    --muted:       #64748B;
+    --muted-light: #94A3B8;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
     font-size: 14px;
     line-height: 1.5;
-    min-height: 100vh;
   }
 
-  /* ── Header ── */
-  .header {
-    background: linear-gradient(135deg, #0A0F1E 0%, #0D1428 60%, #0F172A 100%);
-    border-bottom: 1px solid var(--brand-blue-dark);
-    padding: 0 32px;
+  /* ── TOP HEADER BAR ── */
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 28px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-    min-height: 72px;
-    position: relative;
-    overflow: hidden;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(43,92,230,0.06);
   }
+  .topbar-left { display: flex; align-items: center; gap: 10px; }
+  .logo-svg { width: 32px; height: 38px; flex-shrink: 0; }
+  .brand { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; color: var(--text); }
+  .brand span { color: var(--blue); }
+  .tagline { font-size: 11px; color: var(--muted); letter-spacing: 0.2px; }
 
-  /* subtle glow behind logo */
-  .header::before {
+  .topbar-right { display: flex; align-items: center; gap: 14px; }
+  .live-dot {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--green); font-weight: 600;
+  }
+  .live-dot::before {
     content: '';
-    position: absolute;
-    left: 20px; top: 50%; transform: translateY(-50%);
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(43,92,230,0.18) 0%, transparent 70%);
-    pointer-events: none;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
   }
-
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    position: relative;
-    z-index: 1;
-    padding: 14px 0;
-  }
-
-  /* PolyCalls geometric logo SVG container */
-  .logo-icon {
-    width: 44px;
-    height: 44px;
-    flex-shrink: 0;
-    filter: drop-shadow(0 2px 8px rgba(43,92,230,0.5));
-  }
-
-  .header-wordmark {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-  }
-  .header-brand {
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: -0.3px;
-    color: var(--brand-white);
-  }
-  .header-brand span {
-    color: var(--brand-blue-light);
-  }
-  .header-tagline {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.3px;
-  }
-
-  /* Right side controls */
-  .header-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-    position: relative;
-    z-index: 1;
-    padding: 14px 0;
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
   }
   .refresh-btn {
-    background: rgba(43,92,230,0.15);
-    border: 1px solid rgba(43,92,230,0.4);
-    color: var(--brand-blue-light);
-    padding: 7px 16px;
+    background: var(--blue-faint);
+    border: 1px solid var(--border-dark);
+    color: var(--blue);
+    padding: 6px 14px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     transition: all 0.15s;
   }
-  .refresh-btn:hover {
-    background: rgba(43,92,230,0.3);
-    border-color: var(--brand-blue);
-    color: #fff;
-  }
-  .last-updated { font-size: 11px; color: var(--muted); }
+  .refresh-btn:hover { background: var(--blue-pale); border-color: var(--blue); }
 
-  /* ── Stats bar ── */
-  .stats-bar {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .stat {
-    background: var(--surface);
-    padding: 18px 24px;
+  /* ── HERO SECTION ── */
+  .hero {
+    background: linear-gradient(135deg, #0D1428 0%, #162040 50%, #1a2a50 100%);
+    padding: 48px 28px 40px;
     text-align: center;
-    transition: background 0.15s;
-  }
-  .stat:hover { background: var(--surface2); }
-  .stat-value {
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 4px;
-  }
-  .stat-value.green  { color: var(--green); }
-  .stat-value.red    { color: var(--red); }
-  .stat-value.yellow { color: var(--yellow); }
-  .stat-value.blue   { color: var(--brand-blue-light); }
-
-  /* ── Win rate meter ── */
-  .winrate-bar-wrap {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 16px 32px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .winrate-label { font-size: 12px; color: var(--muted); white-space: nowrap; }
-  .winrate-bar {
-    flex: 1;
-    height: 8px;
-    background: var(--surface3);
-    border-radius: 999px;
+    position: relative;
     overflow: hidden;
   }
-  .winrate-fill {
-    height: 100%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--brand-blue), var(--brand-blue-light));
-    transition: width 0.6s ease;
-    box-shadow: 0 0 8px rgba(43,92,230,0.6);
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(43,92,230,0.25) 0%, transparent 70%);
+    pointer-events: none;
   }
-  .winrate-fill.green-fill {
-    background: linear-gradient(90deg, #27ae60, var(--green));
-    box-shadow: 0 0 8px rgba(46,204,113,0.4);
+  .hero-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: rgba(255,255,255,0.45);
+    margin-bottom: 16px;
   }
-  .winrate-pct {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--brand-blue-light);
-    white-space: nowrap;
-  }
-  .winrate-detail { font-size: 11px; color: var(--muted); white-space: nowrap; }
 
-  /* ── Filters ── */
-  .filters {
-    padding: 12px 32px;
+  /* Win rate hero number */
+  .winrate-hero {
+    font-size: clamp(72px, 15vw, 120px);
+    font-weight: 900;
+    letter-spacing: -4px;
+    line-height: 1;
+    color: #fff;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+  .winrate-hero.perfect { color: #4ADE80; }
+  .winrate-hero.great   { color: #86EFAC; }
+  .winrate-hero.ok      { color: #FCD34D; }
+  .winrate-hero.bad     { color: #FCA5A5; }
+
+  .winrate-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 28px;
+    letter-spacing: 0.3px;
+  }
+
+  /* Streak badge */
+  .streak-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(74,222,128,0.12);
+    border: 1px solid rgba(74,222,128,0.3);
+    border-radius: 999px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #4ADE80;
+    margin-bottom: 36px;
+  }
+  .streak-badge .fire { font-size: 18px; }
+  .streak-badge.no-streak {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* Hero stats row */
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .hero-stat {
+    flex: 1;
+    padding: 18px 12px;
+    text-align: center;
+    background: rgba(255,255,255,0.03);
+  }
+  .hero-stat + .hero-stat { border-left: 1px solid rgba(255,255,255,0.06); }
+  .hero-stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1;
+    color: #fff;
+  }
+  .hero-stat-value.green  { color: #4ADE80; }
+  .hero-stat-value.red    { color: #F87171; }
+  .hero-stat-value.yellow { color: #FCD34D; }
+  .hero-stat-value.blue   { color: #93C5FD; }
+  .hero-stat-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 5px;
+    font-weight: 600;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main { max-width: 1100px; margin: 0 auto; padding: 28px 28px 48px; }
+
+  /* Section header */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-mid);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
     display: flex;
     align-items: center;
     gap: 8px;
-    border-bottom: 1px solid var(--border);
-    flex-wrap: wrap;
-    background: var(--surface);
   }
-  .filter-label { font-size: 12px; color: var(--muted); }
-  .filter-btn {
-    padding: 5px 12px;
+  .section-count {
+    background: var(--blue-pale);
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
     border-radius: 20px;
+  }
+
+  /* ── OPEN CALLS (suspense section) ── */
+  .open-calls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .open-call-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .open-call-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--blue-light));
+    border-radius: 14px 14px 0 0;
+  }
+  .open-call-card:hover { border-color: var(--blue-light); box-shadow: 0 4px 16px rgba(43,92,230,0.1); }
+
+  .open-call-top {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 10px; gap: 8px;
+  }
+  .open-call-q {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+    flex: 1;
+  }
+  .dir-badge {
+    display: inline-flex; align-items: center;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 800;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .dir-yes   { background: var(--blue-pale); color: var(--blue); }
+  .dir-no    { background: #F1F5F9; color: var(--muted); }
+  .dir-up    { background: var(--green-pale); color: var(--green); }
+  .dir-down  { background: var(--red-pale); color: var(--red); }
+
+  .open-call-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 11px; color: var(--muted);
+  }
+  .open-call-prob {
+    font-size: 20px; font-weight: 800;
+    color: var(--blue); letter-spacing: -0.5px;
+  }
+  .pending-pill {
+    background: var(--yellow-pale);
+    color: var(--yellow);
+    font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  /* ── ACTIVITY FEED ── */
+  .feed { margin-bottom: 32px; }
+  .feed-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--surface);
     border: 1px solid var(--border);
-    background: var(--surface2);
-    color: var(--muted);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    transition: all 0.15s;
     cursor: pointer;
-    font-size: 12px;
-    font-weight: 500;
+    text-decoration: none;
+    color: inherit;
+  }
+  .feed-item:hover { border-color: var(--border-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+
+  .feed-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .feed-icon-win     { background: var(--green-pale); }
+  .feed-icon-loss    { background: var(--red-pale); }
+  .feed-icon-pending { background: var(--yellow-pale); }
+
+  .feed-body { flex: 1; min-width: 0; }
+  .feed-q {
+    font-size: 13px; font-weight: 600;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    color: var(--text); margin-bottom: 3px;
+  }
+  .feed-meta { font-size: 11px; color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .feed-right { text-align: right; flex-shrink: 0; }
+  .feed-status {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 12px; border-radius: 20px;
+    font-size: 12px; font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .status-win     { background: var(--green-pale); color: var(--green); }
+  .status-loss    { background: var(--red-pale); color: var(--red); }
+  .status-pending { background: var(--yellow-pale); color: var(--yellow); }
+  .feed-prob { font-size: 13px; font-weight: 700; color: var(--muted-light); }
+
+  /* ── FILTERS ── */
+  .filters {
+    display: flex; align-items: center; gap: 7px;
+    margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 5px 13px; border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface); color: var(--muted);
+    cursor: pointer; font-size: 12px; font-weight: 600;
     transition: all 0.15s;
   }
-  .filter-btn:hover { border-color: var(--brand-blue); color: var(--text); }
-  .filter-btn.active {
-    background: var(--brand-blue);
-    border-color: var(--brand-blue);
-    color: #fff;
-    box-shadow: 0 0 10px rgba(43,92,230,0.4);
-  }
+  .filter-btn:hover { border-color: var(--blue); color: var(--blue); }
+  .filter-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
 
-  /* ── Calls table ── */
-  .table-wrap { padding: 24px 32px; }
-  .section-title {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-  }
-  table { width: 100%; border-collapse: collapse; }
-  thead th {
-    text-align: left;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: var(--muted);
-    padding: 8px 12px;
-    border-bottom: 1px solid var(--border);
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background 0.1s;
-    cursor: pointer;
-  }
-  tbody tr:hover { background: var(--surface2); }
-  tbody tr.win-row     { background: var(--win-bg); }
-  tbody tr.loss-row    { background: var(--loss-bg); }
-  tbody tr.pending-row { background: var(--pending-bg); }
-  tbody tr.win-row:hover     { background: rgba(46,204,113,0.12); }
-  tbody tr.loss-row:hover    { background: rgba(231,76,60,0.12); }
-  tbody tr.pending-row:hover { background: rgba(243,156,18,0.12); }
-
-  td { padding: 12px; vertical-align: middle; }
-
-  /* Status badge */
-  .badge {
-    display: inline-flex; align-items: center; justify-content: center;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    white-space: nowrap;
-  }
-  .badge-win     { background: rgba(46,204,113,0.15); color: var(--green); border: 1px solid rgba(46,204,113,0.3); }
-  .badge-loss    { background: rgba(231,76,60,0.15); color: var(--red); border: 1px solid rgba(231,76,60,0.3); }
-  .badge-pending { background: rgba(243,156,18,0.12); color: var(--yellow); border: 1px solid rgba(243,156,18,0.3); }
-  .badge-unknown { background: rgba(107,117,160,0.12); color: var(--muted); border: 1px solid var(--border); }
-
-  /* Direction */
-  .dir-up   { color: var(--green); font-weight: 700; font-size: 13px; }
-  .dir-down { color: var(--red); font-weight: 700; font-size: 13px; }
-  .dir-yes  { color: var(--brand-blue-light); font-weight: 700; font-size: 13px; }
-  .dir-no   { color: var(--muted); font-weight: 700; font-size: 13px; }
-
-  /* Category pill */
-  .cat {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  .cat-crypto    { background: rgba(43,92,230,0.15); color: var(--brand-blue-light); }
-  .cat-sports    { background: rgba(123,97,255,0.15); color: var(--purple); }
-  .cat-politics  { background: rgba(231,76,60,0.12); color: #e67e7e; }
-  .cat-economics { background: rgba(46,204,113,0.12); color: var(--green); }
-  .cat-other     { background: var(--surface2); color: var(--muted); }
-
-  .question-cell { max-width: 320px; }
-  .question-text {
-    font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 300px;
-  }
-  .question-link { color: var(--brand-blue-light); text-decoration: none; font-size: 11px; display: inline-block; margin-top: 2px; }
-  .question-link:hover { text-decoration: underline; }
-
-  .prob-cell  { font-weight: 600; font-size: 15px; }
-  .score-cell { color: var(--muted); font-size: 13px; }
-  .date-cell  { color: var(--muted); font-size: 12px; white-space: nowrap; }
-  .model-cell { color: var(--muted); font-size: 11px; }
-  .outcome-detail { font-size: 11px; color: var(--muted); margin-top: 2px; }
-
-  /* Empty state */
-  .empty { text-align: center; padding: 60px 20px; color: var(--muted); }
-  .empty-icon { font-size: 40px; margin-bottom: 12px; }
-
-  /* Category breakdown */
+  /* ── CATEGORY BREAKDOWN ── */
   .breakdown-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 12px;
-    margin-top: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px; margin-bottom: 32px;
   }
   .breakdown-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    transition: border-color 0.15s;
+    border-radius: 12px; padding: 14px 16px;
+    transition: all 0.15s;
   }
-  .breakdown-card:hover { border-color: var(--brand-blue-dark); }
-  .breakdown-name { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
-  .breakdown-stats { display: flex; justify-content: space-between; font-size: 12px; }
-  .breakdown-winrate { font-size: 18px; font-weight: 800; margin-top: 6px; }
+  .breakdown-card:hover { border-color: var(--border-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .breakdown-name { font-size: 12px; font-weight: 700; color: var(--text-mid); margin-bottom: 8px; }
+  .breakdown-wr { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 4px; }
+  .breakdown-detail { font-size: 11px; color: var(--muted); }
 
-  /* Loading / error */
-  .loading { text-align: center; padding: 60px; color: var(--muted); font-size: 16px; }
-  .error-banner {
-    background: rgba(231,76,60,0.08);
-    border: 1px solid rgba(231,76,60,0.25);
-    color: #e67e7e;
-    padding: 12px 24px;
-    margin: 16px 32px;
-    border-radius: 8px;
-    font-size: 13px;
-  }
-
-  /* Notice */
-  .notice {
-    background: rgba(43,92,230,0.08);
-    border: 1px solid rgba(43,92,230,0.2);
-    color: var(--brand-blue-light);
-    padding: 10px 16px;
-    margin: 16px 32px 0;
-    border-radius: 8px;
-    font-size: 12px;
-  }
-
-  /* Footer */
+  /* ── DISCLAIMER FOOTER ── */
   .footer {
-    padding: 24px 32px;
+    background: var(--surface);
     border-top: 1px solid var(--border);
+    padding: 20px 28px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
   }
-  .footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .footer-logo { width: 28px; height: 28px; opacity: 0.7; }
+  .footer-brand { display: flex; align-items: center; gap: 8px; }
+  .footer-logo { width: 20px; height: 24px; opacity: 0.5; }
   .footer-text { font-size: 12px; color: var(--muted); }
-  .footer-disclaimer {
-    font-size: 11px;
-    color: var(--muted);
-    opacity: 0.7;
-    max-width: 500px;
-    text-align: right;
+  .footer-text a { color: var(--blue); text-decoration: none; }
+  .disclaimer { font-size: 11px; color: var(--muted-light); max-width: 480px; text-align: right; }
+
+  /* ── EMPTY STATE ── */
+  .empty { text-align: center; padding: 48px 20px; color: var(--muted); }
+  .empty-icon { font-size: 36px; margin-bottom: 10px; }
+
+  /* ── ERROR BANNER ── */
+  .error-banner {
+    background: var(--red-pale);
+    border: 1px solid rgba(220,38,38,0.2);
+    color: var(--red);
+    padding: 12px 20px; margin: 16px 28px;
+    border-radius: 10px; font-size: 13px;
   }
 
-  @media (max-width: 768px) {
-    .header { padding: 0 16px; }
-    .stats-bar { grid-template-columns: repeat(3, 1fr); }
-    .winrate-bar-wrap { padding: 12px 16px; }
-    .filters { padding: 10px 16px; }
-    .table-wrap { padding: 16px; }
-    thead th:nth-child(6),
-    thead th:nth-child(7),
-    tbody td:nth-child(6),
-    tbody td:nth-child(7) { display: none; }
+  @media (max-width: 640px) {
+    .topbar { padding: 0 16px; }
+    .hero { padding: 36px 16px 32px; }
+    .main { padding: 20px 16px 40px; }
+    .hero-stats { flex-wrap: wrap; }
     .footer { padding: 16px; }
-    .footer-disclaimer { text-align: left; }
+    .disclaimer { text-align: left; }
+    .feed-right { display: none; }
   }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════ HEADER ══════════════════ -->
-<div class="header">
-  <div class="header-left">
-    <!-- PolyCalls geometric cube "P" logo — inline SVG recreation -->
-    <svg class="logo-icon" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
-      <!-- Isometric cube top face -->
+<!-- ── STICKY TOP BAR ── -->
+<header class="topbar">
+  <div class="topbar-left">
+    <svg class="logo-svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
       <polygon points="50,4 92,28 50,52 8,28" fill="#4A7AF0"/>
-      <!-- Left face (dark) -->
-      <polygon points="8,28 8,72 50,96 50,52" fill="#0A0A0F"/>
-      <!-- Right face (mid blue) -->
+      <polygon points="8,28 8,72 50,96 50,52" fill="#080C18"/>
       <polygon points="92,28 92,52 50,76 50,52" fill="#2B5CE6"/>
-      <!-- Inner highlight / white diamond -->
-      <polygon points="50,36 66,45 50,54 34,45" fill="white" opacity="0.92"/>
-      <!-- "tail" of the P — lower right segment -->
+      <polygon points="50,36 66,45 50,54 34,45" fill="white" opacity="0.95"/>
       <polygon points="50,76 92,52 80,82 50,96" fill="#1A3FBF"/>
-      <!-- lower left corner of tail -->
       <polygon points="50,96 50,112 38,105 38,88" fill="#0D1428"/>
     </svg>
-
-    <div class="header-wordmark">
-      <div class="header-brand">Poly<span>Calls</span></div>
-      <div class="header-tagline">Full audit trail · Every call · Every outcome</div>
+    <div>
+      <div class="brand">Poly<span>Calls</span></div>
+      <div class="tagline">Every call. Full transparency.</div>
     </div>
   </div>
-
-  <div class="header-right">
+  <div class="topbar-right">
+    <div class="live-dot">LIVE</div>
     <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
-    <div class="last-updated" id="last-updated">—</div>
   </div>
-</div>
+</header>
 
-<!-- ══════════════════ STATS BAR ══════════════════ -->
-<div id="stats-bar" class="stats-bar">
-  <div class="stat"><div class="stat-value blue"   id="stat-total">—</div><div class="stat-label">Total Calls</div></div>
-  <div class="stat"><div class="stat-value green"  id="stat-wins">—</div><div class="stat-label">Wins</div></div>
-  <div class="stat"><div class="stat-value red"    id="stat-losses">—</div><div class="stat-label">Losses</div></div>
-  <div class="stat"><div class="stat-value yellow" id="stat-pending">—</div><div class="stat-label">Pending</div></div>
-  <div class="stat"><div class="stat-value green"  id="stat-winrate">—</div><div class="stat-label">Win Rate</div></div>
-  <div class="stat"><div class="stat-value blue"   id="stat-settled">—</div><div class="stat-label">Settled</div></div>
-</div>
-
-<!-- ══════════════════ WIN RATE BAR ══════════════════ -->
-<div class="winrate-bar-wrap">
-  <div class="winrate-label">Win Rate</div>
-  <div class="winrate-bar">
-    <div class="winrate-fill" id="winrate-fill" style="width:0%"></div>
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-eyebrow">Live Track Record</div>
+  <div class="winrate-hero" id="hero-winrate">—</div>
+  <div class="winrate-sub" id="hero-winrate-sub">Loading…</div>
+  <div id="streak-badge" class="streak-badge no-streak">
+    <span class="fire">🔥</span>
+    <span id="streak-text">Loading streak…</span>
   </div>
-  <div>
-    <div class="winrate-pct" id="winrate-pct">—</div>
-    <div class="winrate-detail" id="winrate-detail">0 of 0 settled</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-value green" id="h-wins">—</div>
+      <div class="hero-stat-label">Wins</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value red" id="h-losses">—</div>
+      <div class="hero-stat-label">Losses</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value yellow" id="h-pending">—</div>
+      <div class="hero-stat-label">Watching</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value blue" id="h-total">—</div>
+      <div class="hero-stat-label">Total Calls</div>
+    </div>
   </div>
-</div>
-
-<!-- ══════════════════ FILTERS ══════════════════ -->
-<div class="filters">
-  <span class="filter-label">Filter:</span>
-  <button class="filter-btn active" onclick="setFilter('ALL', this)">All</button>
-  <button class="filter-btn" onclick="setFilter('WIN', this)">✓ Wins</button>
-  <button class="filter-btn" onclick="setFilter('LOSS', this)">✗ Losses</button>
-  <button class="filter-btn" onclick="setFilter('PENDING', this)">⏳ Pending</button>
-  <button class="filter-btn" onclick="setFilter('Crypto', this)">Crypto</button>
-  <button class="filter-btn" onclick="setFilter('Sports', this)">Sports</button>
-  <button class="filter-btn" onclick="setFilter('Politics', this)">Politics</button>
-</div>
+</section>
 
 <div id="error-container"></div>
-<div id="notice" class="notice" style="display:none"></div>
 
-<!-- ══════════════════ TABLE ══════════════════ -->
-<div class="table-wrap">
-  <div class="section-title">All Calls</div>
-  <div id="table-container">
-    <div class="loading">Loading calls…</div>
+<!-- ── MAIN CONTENT ── -->
+<main class="main">
+
+  <!-- Open Calls -->
+  <div class="section-header">
+    <div class="section-title">
+      ⏳ Open Calls
+      <span class="section-count" id="open-count">0</span>
+    </div>
+    <span style="font-size:12px;color:var(--muted)">Pending resolution</span>
   </div>
-</div>
+  <div class="open-calls-grid" id="open-calls-grid">
+    <div class="empty"><div class="empty-icon">✅</div>No open calls right now.</div>
+  </div>
 
-<div class="table-wrap" style="padding-top:0">
-  <div class="section-title">By Category</div>
+  <!-- Recent Activity -->
+  <div class="section-header">
+    <div class="section-title">📋 All Calls</div>
+    <div class="filters">
+      <button class="filter-btn active" onclick="setFilter('ALL',this)">All</button>
+      <button class="filter-btn" onclick="setFilter('WIN',this)">✓ Wins</button>
+      <button class="filter-btn" onclick="setFilter('LOSS',this)">✗ Losses</button>
+      <button class="filter-btn" onclick="setFilter('PENDING',this)">⏳ Pending</button>
+    </div>
+  </div>
+  <div class="feed" id="feed">
+    <div class="empty"><div class="empty-icon">📭</div>No calls yet.</div>
+  </div>
+
+  <!-- By Category -->
+  <div class="section-header" style="margin-top:8px">
+    <div class="section-title">📊 By Category</div>
+  </div>
   <div class="breakdown-grid" id="breakdown-grid"></div>
-</div>
 
-<!-- ══════════════════ FOOTER ══════════════════ -->
-<div class="footer">
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
   <div class="footer-brand">
     <svg class="footer-logo" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
       <polygon points="50,4 92,28 50,52 8,28" fill="#4A7AF0"/>
-      <polygon points="8,28 8,72 50,96 50,52" fill="#0A0A0F"/>
+      <polygon points="8,28 8,72 50,96 50,52" fill="#080C18"/>
       <polygon points="92,28 92,52 50,76 50,52" fill="#2B5CE6"/>
-      <polygon points="50,36 66,45 50,54 34,45" fill="white" opacity="0.92"/>
+      <polygon points="50,36 66,45 50,54 34,45" fill="white" opacity="0.95"/>
       <polygon points="50,76 92,52 80,82 50,96" fill="#1A3FBF"/>
       <polygon points="50,96 50,112 38,105 38,88" fill="#0D1428"/>
     </svg>
-    <div class="footer-text">© 2025 PolyCalls · <a href="https://x.com/polycalls" target="_blank" style="color:var(--brand-blue-light);text-decoration:none">@polycalls</a></div>
+    <div class="footer-text">© 2026 PolyCalls &nbsp;·&nbsp; <a href="https://x.com/polycalls" target="_blank">@polycalls on X</a></div>
   </div>
-  <div class="footer-disclaimer">Not financial advice. For educational purposes only. Past performance does not guarantee future results.</div>
-</div>
+  <div class="disclaimer">Not financial advice. For educational purposes only. Past performance does not guarantee future results.</div>
+</footer>
 
-<!-- ══════════════════ SCRIPTS ══════════════════ -->
 <script>
 let allData = [];
 let currentFilter = 'ALL';
 
 async function loadData() {
-  document.getElementById('last-updated').textContent = 'Loading…';
-
-  // Option 1: dashboard_data.js injected via <script> tag
   if (window.DASHBOARD_DATA && window.DASHBOARD_DATA.length > 0) {
     allData = window.DASHBOARD_DATA;
-    document.getElementById('last-updated').textContent = 'Updated ' + new Date().toLocaleTimeString();
     document.getElementById('error-container').innerHTML = '';
     render();
     return;
   }
-
-  // Option 2: fetch (http server mode)
   try {
     const resp = await fetch('data/calls_resolved.json?' + Date.now());
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
     allData = await resp.json();
-    document.getElementById('last-updated').textContent = 'Updated ' + new Date().toLocaleTimeString();
     document.getElementById('error-container').innerHTML = '';
     render();
-  } catch (e) {
+  } catch(e) {
     document.getElementById('error-container').innerHTML =
-      `<div class="error-banner">
-        ⚠️ No data loaded. Run <code>python3 resolve_calls.py</code> in the project folder, then refresh.
-      </div>`;
-    document.getElementById('last-updated').textContent = 'No data';
-    render(); // render empty state
+      '<div class="error-banner">⚠️ No data loaded yet. Run the pipeline first, then refresh.</div>';
+    render();
   }
 }
 
@@ -554,158 +547,172 @@ function setFilter(f, btn) {
   currentFilter = f;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  render();
+  renderFeed();
 }
 
-function formatDate(iso) {
+function fmtDate(iso) {
   if (!iso) return '—';
   try {
     const d = new Date(iso);
     return d.toLocaleDateString('en-US', {month:'short', day:'numeric'}) +
-           ' ' + d.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:false});
+           ' at ' + d.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true});
   } catch { return iso.slice(0,10); }
 }
 
-function catClass(cat) {
-  const c = (cat||'').toLowerCase();
-  if (c === 'crypto')    return 'cat-crypto';
-  if (c === 'sports')    return 'cat-sports';
-  if (c === 'politics')  return 'cat-politics';
-  if (c === 'economics') return 'cat-economics';
-  return 'cat-other';
-}
-
-function dirHtml(dir) {
+function dirLabel(dir) {
   const d = (dir||'').toUpperCase();
-  if (d === 'UP')   return `<span class="dir-up">↑ UP</span>`;
-  if (d === 'DOWN') return `<span class="dir-down">↓ DOWN</span>`;
-  if (d === 'YES')  return `<span class="dir-yes">✓ YES</span>`;
-  if (d === 'NO')   return `<span class="dir-no">✗ NO</span>`;
-  return `<span class="dir-no">${d}</span>`;
+  if (d === 'YES')  return ['✓ YES', 'dir-yes'];
+  if (d === 'NO')   return ['✗ NO',  'dir-no'];
+  if (d === 'UP')   return ['↑ UP',  'dir-up'];
+  if (d === 'DOWN') return ['↓ DOWN','dir-down'];
+  return [d, 'dir-no'];
 }
 
-function badgeHtml(status) {
-  const s = (status||'').toUpperCase();
-  if (s === 'WIN')     return `<span class="badge badge-win">WIN ✓</span>`;
-  if (s === 'LOSS')    return `<span class="badge badge-loss">LOSS ✗</span>`;
-  if (s === 'PENDING') return `<span class="badge badge-pending">PENDING</span>`;
-  return `<span class="badge badge-unknown">UNKNOWN</span>`;
-}
-
-function rowClass(status) {
-  const s = (status||'').toLowerCase();
-  if (s === 'win')     return 'win-row';
-  if (s === 'loss')    return 'loss-row';
-  if (s === 'pending') return 'pending-row';
-  return '';
-}
-
-function marketUrl(record) {
-  const mid = record.market_id || '';
-  if (mid.startsWith('daily_')) {
-    const q = (record.question || '').toLowerCase()
-      .replace(/[^a-z0-9\s]/g, '')
-      .trim()
-      .replace(/\s+/g, '-')
-      .slice(0, 60);
-    return `https://polymarket.com/event/${q}`;
+function calcStreak(data) {
+  // Walk backwards through settled calls to find current streak
+  const settled = data.filter(r => r.resolution_status === 'WIN' || r.resolution_status === 'LOSS')
+    .sort((a,b) => new Date(b.date) - new Date(a.date));
+  if (!settled.length) return { count: 0, type: null };
+  const type = settled[0].resolution_status;
+  let count = 0;
+  for (const r of settled) {
+    if (r.resolution_status === type) count++;
+    else break;
   }
-  return `https://polymarket.com/markets`;
+  return { count, type };
 }
 
 function render() {
-  let data = allData.filter(r => {
-    if (currentFilter === 'ALL') return true;
-    if (['WIN','LOSS','PENDING','UNKNOWN'].includes(currentFilter)) {
-      return (r.resolution_status || '').toUpperCase() === currentFilter;
-    }
-    return (r.category || '').toLowerCase() === currentFilter.toLowerCase();
-  });
+  renderHero();
+  renderOpenCalls();
+  renderFeed();
+  renderBreakdown();
+}
 
-  const order = {WIN:0, LOSS:1, PENDING:2, UNKNOWN:3};
-  data.sort((a, b) => {
-    const so = (order[a.resolution_status] ?? 3) - (order[b.resolution_status] ?? 3);
-    if (so !== 0) return so;
-    return new Date(b.date) - new Date(a.date);
-  });
-
-  // Stats (always from full dataset)
-  const total   = allData.length;
+function renderHero() {
   const wins    = allData.filter(r => r.resolution_status === 'WIN').length;
   const losses  = allData.filter(r => r.resolution_status === 'LOSS').length;
   const pending = allData.filter(r => r.resolution_status === 'PENDING').length;
+  const total   = allData.length;
   const settled = wins + losses;
-  const winrate = settled > 0 ? (wins / settled * 100) : 0;
+  const wr      = settled > 0 ? (wins / settled * 100) : null;
 
-  document.getElementById('stat-total').textContent   = total;
-  document.getElementById('stat-wins').textContent    = wins;
-  document.getElementById('stat-losses').textContent  = losses;
-  document.getElementById('stat-pending').textContent = pending;
-  document.getElementById('stat-settled').textContent = settled;
-  document.getElementById('stat-winrate').textContent = settled > 0 ? winrate.toFixed(1) + '%' : '—';
-
-  document.getElementById('winrate-pct').textContent    = settled > 0 ? winrate.toFixed(1) + '%' : '—';
-  document.getElementById('winrate-detail').textContent = `${wins} of ${settled} settled`;
-  document.getElementById('winrate-fill').style.width   = Math.min(winrate, 100) + '%';
-
-  const fill = document.getElementById('winrate-fill');
-  const pct  = document.getElementById('winrate-pct');
-  if (winrate >= 60) {
-    fill.classList.add('green-fill');
-    pct.style.color = 'var(--green)';
-  } else if (winrate >= 40) {
-    fill.classList.remove('green-fill');
-    pct.style.color = 'var(--yellow)';
+  // Big winrate number
+  const heroEl = document.getElementById('hero-winrate');
+  const subEl  = document.getElementById('hero-winrate-sub');
+  if (wr === null) {
+    heroEl.textContent = '—';
+    heroEl.className = 'winrate-hero';
+    subEl.textContent = 'No settled calls yet — watch this space';
   } else {
-    fill.classList.remove('green-fill');
-    pct.style.color = 'var(--red)';
+    heroEl.textContent = wr.toFixed(1) + '%';
+    heroEl.className = 'winrate-hero ' + (wr === 100 ? 'perfect' : wr >= 65 ? 'great' : wr >= 45 ? 'ok' : 'bad');
+    subEl.textContent = `${wins}W — ${losses}L across ${settled} settled call${settled !== 1 ? 's' : ''}`;
   }
 
-  // Table
-  const container = document.getElementById('table-container');
-  if (data.length === 0) {
-    container.innerHTML = `<div class="empty"><div class="empty-icon">📭</div>No calls match this filter.</div>`;
+  // Streak
+  const streak = calcStreak(allData);
+  const badgeEl = document.getElementById('streak-badge');
+  const textEl  = document.getElementById('streak-text');
+  if (streak.count >= 2) {
+    badgeEl.className = 'streak-badge';
+    const emoji = streak.type === 'WIN' ? '🔥' : '❄️';
+    badgeEl.querySelector('.fire').textContent = emoji;
+    textEl.textContent = streak.count + '-call ' + (streak.type === 'WIN' ? 'WIN' : 'LOSS') + ' streak';
+  } else if (streak.count === 1 && streak.type === 'WIN') {
+    badgeEl.className = 'streak-badge';
+    badgeEl.querySelector('.fire').textContent = '✅';
+    textEl.textContent = 'Last call: WIN';
   } else {
-    const rows = data.map(r => {
-      const yesP = r.yes_price != null ? (r.yes_price * 100).toFixed(1) + '%' : '—';
-      const rc = rowClass(r.resolution_status);
-      const outcome = r.resolved_outcome ? `<div class="outcome-detail">Settled: ${r.resolved_outcome}</div>` : '';
-      const url = marketUrl(r);
-      return `
-        <tr class="${rc}" onclick="window.open('${url}','_blank')">
-          <td>${badgeHtml(r.resolution_status)}</td>
-          <td>${dirHtml(r.called_direction)}</td>
-          <td class="question-cell">
-            <div class="question-text" title="${(r.question||'').replace(/"/g,'&quot;')}">${r.question || '—'}</div>
-            ${outcome}
-          </td>
-          <td><span class="cat ${catClass(r.category)}">${r.category || 'Other'}</span></td>
-          <td class="prob-cell">${yesP}</td>
-          <td class="score-cell">${r.edge_score != null ? r.edge_score.toFixed(0) : '—'}</td>
-          <td class="date-cell">${formatDate(r.date)}</td>
-          <td class="model-cell">${(r.model || '').replace('gemma3:12b','gemma3').replace('qwen3:4b','qwen3')}</td>
-        </tr>`;
-    }).join('');
-
-    container.innerHTML = `
-      <table>
-        <thead>
-          <tr>
-            <th>Result</th>
-            <th>Called</th>
-            <th>Market</th>
-            <th>Category</th>
-            <th>YES %</th>
-            <th>Score</th>
-            <th>Posted</th>
-            <th>Model</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>`;
+    badgeEl.className = 'streak-badge no-streak';
+    badgeEl.querySelector('.fire').textContent = '📊';
+    textEl.textContent = 'Track record building…';
   }
 
-  renderBreakdown();
+  document.getElementById('h-wins').textContent    = wins;
+  document.getElementById('h-losses').textContent  = losses;
+  document.getElementById('h-pending').textContent = pending;
+  document.getElementById('h-total').textContent   = total;
+}
+
+function renderOpenCalls() {
+  const open = allData
+    .filter(r => r.resolution_status === 'PENDING')
+    .sort((a,b) => new Date(b.date) - new Date(a.date));
+
+  document.getElementById('open-count').textContent = open.length;
+  const grid = document.getElementById('open-calls-grid');
+
+  if (!open.length) {
+    grid.innerHTML = '<div class="empty"><div class="empty-icon">✅</div>No open calls right now.</div>';
+    return;
+  }
+
+  grid.innerHTML = open.map(r => {
+    const yesP = r.yes_price != null ? (r.yes_price * 100).toFixed(1) + '%' : '—';
+    const [label, cls] = dirLabel(r.called_direction);
+    return `
+      <div class="open-call-card">
+        <div class="open-call-top">
+          <div class="open-call-q">${r.question || '—'}</div>
+          <span class="dir-badge ${cls}">${label}</span>
+        </div>
+        <div class="open-call-meta">
+          <div>
+            <div class="open-call-prob">${yesP}</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:2px">YES price</div>
+          </div>
+          <div style="text-align:right">
+            <span class="pending-pill">Watching</span>
+            <div style="font-size:10px;color:var(--muted);margin-top:4px">${fmtDate(r.date)}</div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderFeed() {
+  const filtered = allData.filter(r => {
+    if (currentFilter === 'ALL') return true;
+    return (r.resolution_status || '').toUpperCase() === currentFilter;
+  }).sort((a,b) => new Date(b.date) - new Date(a.date));
+
+  const feed = document.getElementById('feed');
+  if (!filtered.length) {
+    feed.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>No calls match this filter.</div>';
+    return;
+  }
+
+  feed.innerHTML = filtered.map(r => {
+    const s = (r.resolution_status || '').toUpperCase();
+    const yesP = r.yes_price != null ? (r.yes_price * 100).toFixed(1) + '%' : '—';
+    const [dirLbl, dirCls] = dirLabel(r.called_direction);
+
+    let icon, statusCls, statusLabel;
+    if (s === 'WIN')     { icon='✅'; statusCls='status-win';     statusLabel='WIN ✓'; }
+    else if (s === 'LOSS')    { icon='❌'; statusCls='status-loss';    statusLabel='LOSS ✗'; }
+    else                      { icon='⏳'; statusCls='status-pending'; statusLabel='PENDING'; }
+
+    const url = `https://polymarket.com/markets`;
+
+    return `
+      <a class="feed-item" href="${url}" target="_blank" rel="noopener">
+        <div class="feed-icon feed-icon-${s.toLowerCase()}">${icon}</div>
+        <div class="feed-body">
+          <div class="feed-q">${r.question || '—'}</div>
+          <div class="feed-meta">
+            <span class="dir-badge ${dirCls}" style="padding:1px 7px;font-size:10px">${dirLbl}</span>
+            <span>${fmtDate(r.date)}</span>
+            ${r.category ? `<span style="color:var(--muted-light)">${r.category}</span>` : ''}
+            ${r.resolved_outcome ? `<span style="color:var(--green);font-weight:600">→ ${r.resolved_outcome}</span>` : ''}
+          </div>
+        </div>
+        <div class="feed-right">
+          <div class="feed-status ${statusCls}">${statusLabel}</div>
+          <div class="feed-prob">${yesP}</div>
+        </div>
+      </a>`;
+  }).join('');
 }
 
 function renderBreakdown() {
@@ -713,38 +720,29 @@ function renderBreakdown() {
   for (const r of allData) {
     const c = r.category || 'Other';
     if (!cats[c]) cats[c] = {wins:0, losses:0, pending:0};
-    const s = r.resolution_status;
-    if (s === 'WIN')          cats[c].wins++;
-    else if (s === 'LOSS')    cats[c].losses++;
-    else if (s === 'PENDING') cats[c].pending++;
+    if (r.resolution_status === 'WIN')          cats[c].wins++;
+    else if (r.resolution_status === 'LOSS')    cats[c].losses++;
+    else if (r.resolution_status === 'PENDING') cats[c].pending++;
   }
 
-  const cards = Object.entries(cats).map(([name, d]) => {
+  const grid = document.getElementById('breakdown-grid');
+  const entries = Object.entries(cats);
+  if (!entries.length) { grid.innerHTML = ''; return; }
+
+  grid.innerHTML = entries.map(([name, d]) => {
     const settled = d.wins + d.losses;
-    const wr = settled > 0 ? (d.wins / settled * 100).toFixed(0) + '%' : 'N/A';
-    const total = settled + d.pending;
-    const color = settled === 0 ? 'var(--muted)'
-      : d.wins/settled >= 0.6 ? 'var(--green)'
-      : d.wins/settled >= 0.4 ? 'var(--yellow)'
-      : 'var(--red)';
+    const wr = settled > 0 ? (d.wins / settled * 100) : null;
+    const wrStr = wr !== null ? wr.toFixed(0) + '%' : 'N/A';
+    const color = wr === null ? 'var(--muted)' : wr >= 60 ? 'var(--green)' : wr >= 40 ? 'var(--yellow)' : 'var(--red)';
     return `
       <div class="breakdown-card">
         <div class="breakdown-name">${name}</div>
-        <div class="breakdown-stats">
-          <span style="color:var(--green)">${d.wins}W</span>
-          <span style="color:var(--red)">${d.losses}L</span>
-          <span style="color:var(--yellow)">${d.pending} pend</span>
-          <span style="color:var(--muted)">${total} tot</span>
-        </div>
-        <div class="breakdown-winrate" style="color:${color}">${wr}</div>
+        <div class="breakdown-wr" style="color:${color}">${wrStr}</div>
+        <div class="breakdown-detail">${d.wins}W · ${d.losses}L · ${d.pending} open</div>
       </div>`;
   }).join('');
-
-  document.getElementById('breakdown-grid').innerHTML =
-    cards || '<div style="color:var(--muted)">No data yet.</div>';
 }
 
-// Auto-load on open
 loadData();
 </script>
 </body>
