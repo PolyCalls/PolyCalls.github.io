@@ -482,7 +482,8 @@ function renderOpenCalls() {
   if (!open.length) { col.innerHTML='<div class="empty">No open calls right now.</div>'; return; }
   col.innerHTML = open.map(r => {
     const yp = r.yes_price!=null ? (r.yes_price*100).toFixed(1)+"%" : "—";
-    return `<div class="open-card">
+    const url = r.polymarket_url || "https://polymarket.com/markets";
+    return `<div class="open-card" onclick="window.open('${url}','_blank')" style="cursor:pointer" title="View on Polymarket">
       <div class="oc-top">
         <div class="oc-q">${r.question||"—"}</div>
         ${chip(r.called_direction)}
@@ -517,7 +518,8 @@ function renderCenter() {
                 : s==="LOSS"? '<span class="sbadge sl">Loss</span>'
                 :             '<span class="sbadge sp">Pending</span>';
     const outcome = r.resolved_outcome ? `<div class="tq-out">→ ${r.resolved_outcome}</div>` : "";
-    return `<tr onclick="window.open('https://polymarket.com/markets','_blank')">
+    const url = r.polymarket_url || "https://polymarket.com/markets";
+    return `<tr onclick="window.open('${url}','_blank')" title="View on Polymarket">
       <td>${badge}</td>
       <td>${chip(r.called_direction)}</td>
       <td class="tq"><div class="tq-text" title="${(r.question||"").replace(/"/g,"&quot;")}">${r.question||"—"}</div>${outcome}</td>
