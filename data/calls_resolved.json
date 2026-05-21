@@ -88,10 +88,11 @@
     "model": "gemma3:12b",
     "tweet_count": 1,
     "posted": true,
-    "resolution_status": "PENDING",
-    "resolved_price": 0.9995,
-    "resolved_outcome": null,
-    "called_direction": "UP"
+    "resolution_status": "WIN",
+    "resolved_price": 1.0,
+    "resolved_outcome": "UP",
+    "called_direction": "UP",
+    "resolved_at": "2026-05-21T20:00:00Z"
   },
   {
     "date": "2026-05-21T18:44:31.316219+00:00",
@@ -103,10 +104,11 @@
     "model": "gemma3:12b",
     "tweet_count": 1,
     "posted": true,
-    "resolution_status": "PENDING",
-    "resolved_price": 0.9995,
-    "resolved_outcome": null,
-    "called_direction": "YES"
+    "resolution_status": "WIN",
+    "resolved_price": 1.0,
+    "resolved_outcome": "YES",
+    "called_direction": "YES",
+    "resolved_at": "2026-05-21T20:00:00Z"
   },
   {
     "date": "2026-05-21T19:16:48.414384+00:00",
@@ -118,10 +120,11 @@
     "model": "gemma3:12b",
     "tweet_count": 1,
     "posted": true,
-    "resolution_status": "PENDING",
-    "resolved_price": 0.9995,
-    "resolved_outcome": null,
-    "called_direction": "UP"
+    "resolution_status": "WIN",
+    "resolved_price": 1.0,
+    "resolved_outcome": "UP",
+    "called_direction": "UP",
+    "resolved_at": "2026-05-21T20:00:00Z"
   },
   {
     "date": "2026-05-21T19:48:34.056533+00:00",
@@ -166,6 +169,21 @@
     "posted": true,
     "resolution_status": "PENDING",
     "resolved_price": 0.001,
+    "resolved_outcome": null,
+    "called_direction": "NO"
+  },
+  {
+    "date": "2026-05-21T21:56:40.979590+00:00",
+    "market_id": "daily_508394",
+    "question": "What price will Solana hit on May 21?",
+    "yes_price": 0.0035,
+    "edge_score": 110.0,
+    "category": "Crypto",
+    "model": "gemma3:12b",
+    "tweet_count": 1,
+    "posted": true,
+    "resolution_status": "PENDING",
+    "resolved_price": 0.0035,
     "resolved_outcome": null,
     "called_direction": "NO"
   }
