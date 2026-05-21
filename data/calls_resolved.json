@@ -198,5 +198,21 @@
     "resolved_outcome": null,
     "called_direction": "NO",
     "polymarket_url": "https://polymarket.com/event/what-price-will-solana-hit-on-may-21"
+  },
+  {
+    "date": "2026-05-21T23:16:17.316780+00:00",
+    "market_id": "daily_508406",
+    "question": "What price will XRP hit on May 21?",
+    "yes_price": 0.0035,
+    "edge_score": 110.0,
+    "category": "Crypto",
+    "model": "gemma3:12b",
+    "tweet_count": 1,
+    "posted": true,
+    "resolution_status": "PENDING",
+    "resolved_price": 0.0035,
+    "resolved_outcome": null,
+    "called_direction": "NO",
+    "polymarket_url": "https://polymarket.com/event/what-price-will-xrp-hit-on-may-21"
   }
 ]
