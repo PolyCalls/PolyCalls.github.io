@@ -457,6 +457,8 @@
       <div class="sc"><div class="sc-val a" id="sv-pending">—</div><div class="sc-lbl">Pending</div></div>
       <div class="sc"><div class="sc-val b" id="sv-total">—</div><div class="sc-lbl">Total</div></div>
       <div class="sc"><div class="sc-val b" id="sv-settled">—</div><div class="sc-lbl">Settled</div></div>
+      <div class="sc" style="border-left:1px solid var(--border);padding-left:12px;margin-left:4px"><div class="sc-val" id="sv-pnl" style="font-size:18px">—</div><div class="sc-lbl">Paper P&amp;L ($100/call)</div></div>
+      <div class="sc"><div class="sc-val" id="sv-since" style="font-size:13px;letter-spacing:-.2px">—</div><div class="sc-lbl">Live Since</div></div>
     </div>
   </div>
 
@@ -589,6 +591,30 @@ function render() {
   document.getElementById("sv-pending").textContent = pending;
   document.getElementById("sv-total").textContent   = allData.length;
   document.getElementById("sv-settled").textContent = settled;
+
+  // Paper P&L — sourced from TRACKER_META embedded by resolve_calls.py
+  const meta = window.TRACKER_META || {};
+  const pnl  = typeof meta.paper_pnl === "number" ? meta.paper_pnl : null;
+  const pnlEl = document.getElementById("sv-pnl");
+  if (pnl !== null) {
+    const sign = pnl >= 0 ? "+" : "";
+    pnlEl.textContent = sign + "$" + pnl.toFixed(0);
+    pnlEl.style.color = pnl >= 0 ? "var(--green)" : "var(--red)";
+  } else {
+    pnlEl.textContent = "$0";
+    pnlEl.style.color = "var(--muted)";
+  }
+
+  // Live Since — show the date the tracker went public
+  const sinceEl = document.getElementById("sv-since");
+  if (meta.tracker_start) {
+    const d = new Date(meta.tracker_start + "T00:00:00Z");
+    sinceEl.textContent = d.toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric", timeZone:"UTC" });
+    sinceEl.style.color = "var(--muted)";
+  } else {
+    sinceEl.textContent = "May 21, 2026";
+    sinceEl.style.color = "var(--muted)";
+  }
 
   renderOpenCalls();
   renderCenter();
