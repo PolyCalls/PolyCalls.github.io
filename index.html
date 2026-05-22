@@ -461,7 +461,8 @@
       <div class="sc"><div class="sc-val a" id="sv-pending">—</div><div class="sc-lbl">Pending</div></div>
       <div class="sc"><div class="sc-val b" id="sv-total">—</div><div class="sc-lbl">Total</div></div>
       <div class="sc"><div class="sc-val b" id="sv-settled">—</div><div class="sc-lbl">Settled</div></div>
-      <div class="sc" style="border-left:1px solid var(--border);padding-left:12px;margin-left:4px"><div class="sc-val" id="sv-pnl" style="font-size:18px">—</div><div class="sc-lbl">Paper P&amp;L ($100/call)</div></div>
+      <div class="sc" style="border-left:1px solid var(--border);padding-left:12px;margin-left:4px"><div class="sc-val" id="sv-pnl" style="font-size:18px">—</div><div class="sc-lbl">Paper P&amp;L (genuine only)</div></div>
+      <div class="sc"><div class="sc-val" id="sv-roi" style="font-size:15px">—</div><div class="sc-lbl">ROI %</div></div>
       <div class="sc"><div class="sc-val" id="sv-since" style="font-size:13px;letter-spacing:-.2px">—</div><div class="sc-lbl">Live Since</div></div>
     </div>
   </div>
@@ -604,16 +605,31 @@ function render() {
   document.getElementById("sv-settled").textContent = settled;
 
   // Paper P&L — sourced from TRACKER_META embedded by resolve_calls.py
+  // Uses real Polymarket binary payout math. Genuine calls only (excludes LOW CONF).
   const meta = window.TRACKER_META || {};
   const pnl  = typeof meta.paper_pnl === "number" ? meta.paper_pnl : null;
+  const roi  = typeof meta.paper_roi_pct === "number" ? meta.paper_roi_pct : null;
   const pnlEl = document.getElementById("sv-pnl");
+  const roiEl = document.getElementById("sv-roi");
   if (pnl !== null) {
     const sign = pnl >= 0 ? "+" : "";
-    pnlEl.textContent = sign + "$" + pnl.toFixed(0);
+    pnlEl.textContent = sign + "$" + pnl.toFixed(2);
     pnlEl.style.color = pnl >= 0 ? "var(--green)" : "var(--red)";
+    pnlEl.title = `$100/call simulated. Entry price = Polymarket odds at time of call. Genuine calls only (${meta.genuine_wins||0}W / ${meta.genuine_losses||0}L settled).`;
   } else {
-    pnlEl.textContent = "$0";
+    pnlEl.textContent = "$0.00";
     pnlEl.style.color = "var(--muted)";
+  }
+  if (roiEl) {
+    if (roi !== null && meta.genuine_settled > 0) {
+      const rsign = roi >= 0 ? "+" : "";
+      roiEl.textContent = rsign + roi.toFixed(1) + "%";
+      roiEl.style.color = roi >= 0 ? "var(--green)" : "var(--red)";
+      roiEl.title = `ROI on genuine calls only. ${meta.genuine_settled} settled.`;
+    } else {
+      roiEl.textContent = "—";
+      roiEl.style.color = "var(--muted)";
+    }
   }
 
   // Live Since — show the date the tracker went public
