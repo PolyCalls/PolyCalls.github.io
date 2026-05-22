@@ -195,7 +195,7 @@
     "tweet_count": 1,
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.0035,
+    "resolved_price": 0.004,
     "resolved_outcome": null,
     "called_direction": "NO",
     "polymarket_url": "https://polymarket.com/event/what-price-will-solana-hit-on-may-21"
@@ -211,7 +211,7 @@
     "tweet_count": 1,
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.0035,
+    "resolved_price": 0.004,
     "resolved_outcome": null,
     "called_direction": "NO",
     "polymarket_url": "https://polymarket.com/event/what-price-will-xrp-hit-on-may-21"
@@ -227,9 +227,25 @@
     "tweet_count": 1,
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.585,
+    "resolved_price": 0.555,
     "resolved_outcome": null,
     "called_direction": "UP",
     "polymarket_url": "https://polymarket.com/event/bitcoin-up-or-down-on-may-22-2026"
+  },
+  {
+    "date": "2026-05-22T01:02:04.986924+00:00",
+    "market_id": "daily_506413",
+    "question": "Ethereum Up or Down on May 22?",
+    "yes_price": 0.435,
+    "edge_score": 108.0,
+    "category": "Crypto",
+    "model": "gemma3:12b",
+    "tweet_count": 1,
+    "posted": true,
+    "resolution_status": "PENDING",
+    "resolved_price": 0.435,
+    "resolved_outcome": null,
+    "called_direction": "DOWN",
+    "polymarket_url": "https://polymarket.com/event/ethereum-up-or-down-on-may-22-2026"
   }
 ]
