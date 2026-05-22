@@ -16,7 +16,10 @@
     "resolved_outcome": "NO",
     "called_direction": "NO",
     "polymarket_url": "https://polymarket.com/event/what-price-will-bitcoin-hit-on-may-20",
-    "resolved_at": "2026-05-21T04:00:00Z"
+    "resolved_at": "2026-05-21T04:00:00Z",
+    "paper_entry_price": 0.9995,
+    "paper_shares": 100.05,
+    "paper_pnl": 0.05
   },
   {
     "date": "2026-05-21T03:01:43.280543+00:00",
@@ -35,7 +38,10 @@
     "resolved_outcome": "NO",
     "called_direction": "NO",
     "polymarket_url": "https://polymarket.com/event/what-price-will-ethereum-hit-on-may-20",
-    "resolved_at": "2026-05-21T04:00:00Z"
+    "resolved_at": "2026-05-21T04:00:00Z",
+    "paper_entry_price": 0.9975,
+    "paper_shares": 100.25,
+    "paper_pnl": 0.25
   },
   {
     "date": "2026-05-21T14:21:37.620942+00:00",
@@ -52,7 +58,10 @@
     "resolved_outcome": "DOWN",
     "called_direction": "DOWN",
     "polymarket_url": "https://polymarket.com/event/bitcoin-up-or-down-on-may-21-2026",
-    "resolved_at": "2026-05-21T16:00:00Z"
+    "resolved_at": "2026-05-21T16:00:00Z",
+    "paper_entry_price": 0.865,
+    "paper_shares": 115.61,
+    "paper_pnl": 15.61
   },
   {
     "date": "2026-05-21T15:01:26.874609+00:00",
@@ -69,7 +78,10 @@
     "resolved_outcome": "UP",
     "called_direction": "UP",
     "polymarket_url": "https://polymarket.com/event/solana-up-or-down-on-may-21-2026",
-    "resolved_at": "2026-05-21T16:00:00Z"
+    "resolved_at": "2026-05-21T16:00:00Z",
+    "paper_entry_price": 0.53,
+    "paper_shares": 188.68,
+    "paper_pnl": 88.68
   },
   {
     "date": "2026-05-21T17:02:46.750899+00:00",
@@ -88,7 +100,10 @@
     "resolved_outcome": "DOWN",
     "called_direction": "DOWN",
     "polymarket_url": "https://polymarket.com/event/spx-opens-up-or-down-on-may-21-2026",
-    "resolved_at": "2026-05-21T20:00:00Z"
+    "resolved_at": "2026-05-21T20:00:00Z",
+    "paper_entry_price": 0.9995,
+    "paper_shares": 100.05,
+    "paper_pnl": 0.05
   },
   {
     "date": "2026-05-21T17:43:25.619441+00:00",
@@ -105,7 +120,10 @@
     "resolved_outcome": "UP",
     "called_direction": "UP",
     "polymarket_url": "https://polymarket.com/event/spy-up-or-down-on-may-21-2026",
-    "resolved_at": "2026-05-21T20:00:00Z"
+    "resolved_at": "2026-05-21T20:00:00Z",
+    "paper_entry_price": 0.615,
+    "paper_shares": 162.6,
+    "paper_pnl": 62.6
   },
   {
     "date": "2026-05-21T18:44:31.316219+00:00",
@@ -124,7 +142,10 @@
     "resolved_outcome": "YES",
     "called_direction": "YES",
     "polymarket_url": "https://polymarket.com/event/googl-close-above-on-may-21-2026",
-    "resolved_at": "2026-05-21T20:00:00Z"
+    "resolved_at": "2026-05-21T20:00:00Z",
+    "paper_entry_price": 0.98,
+    "paper_shares": 102.04,
+    "paper_pnl": 2.04
   },
   {
     "date": "2026-05-21T19:16:48.414384+00:00",
@@ -141,7 +162,10 @@
     "resolved_outcome": "UP",
     "called_direction": "UP",
     "polymarket_url": "https://polymarket.com/event/pltr-up-or-down-on-may-21-2026",
-    "resolved_at": "2026-05-21T20:00:00Z"
+    "resolved_at": "2026-05-21T20:00:00Z",
+    "paper_entry_price": 0.58,
+    "paper_shares": 172.41,
+    "paper_pnl": 72.41
   },
   {
     "date": "2026-05-21T19:48:34.056533+00:00",
@@ -160,7 +184,10 @@
     "resolved_outcome": "DOWN",
     "called_direction": "DOWN",
     "polymarket_url": "https://polymarket.com/event/dax-up-or-down-on-may-21-2026",
-    "resolved_at": "2026-05-21T20:00:00Z"
+    "resolved_at": "2026-05-21T20:00:00Z",
+    "paper_entry_price": 0.9995,
+    "paper_shares": 100.05,
+    "paper_pnl": 0.05
   },
   {
     "date": "2026-05-21T20:20:26.433684+00:00",
@@ -178,7 +205,10 @@
     "resolved_price": 0.0005,
     "resolved_outcome": null,
     "called_direction": "NO",
-    "polymarket_url": "https://polymarket.com/event/what-price-will-bitcoin-hit-on-may-21"
+    "polymarket_url": "https://polymarket.com/event/what-price-will-bitcoin-hit-on-may-21",
+    "paper_entry_price": 0.9995,
+    "paper_shares": 100.05,
+    "paper_pnl": null
   },
   {
     "date": "2026-05-21T20:52:15.815759+00:00",
@@ -196,7 +226,10 @@
     "resolved_price": 0.0005,
     "resolved_outcome": null,
     "called_direction": "NO",
-    "polymarket_url": "https://polymarket.com/event/what-price-will-ethereum-hit-on-may-21"
+    "polymarket_url": "https://polymarket.com/event/what-price-will-ethereum-hit-on-may-21",
+    "paper_entry_price": 0.999,
+    "paper_shares": 100.1,
+    "paper_pnl": null
   },
   {
     "date": "2026-05-21T21:56:40.979590+00:00",
@@ -214,7 +247,10 @@
     "resolved_price": 0.004,
     "resolved_outcome": null,
     "called_direction": "NO",
-    "polymarket_url": "https://polymarket.com/event/what-price-will-solana-hit-on-may-21"
+    "polymarket_url": "https://polymarket.com/event/what-price-will-solana-hit-on-may-21",
+    "paper_entry_price": 0.9965,
+    "paper_shares": 100.35,
+    "paper_pnl": null
   },
   {
     "date": "2026-05-21T23:16:17.316780+00:00",
@@ -232,7 +268,10 @@
     "resolved_price": 0.004,
     "resolved_outcome": null,
     "called_direction": "NO",
-    "polymarket_url": "https://polymarket.com/event/what-price-will-xrp-hit-on-may-21"
+    "polymarket_url": "https://polymarket.com/event/what-price-will-xrp-hit-on-may-21",
+    "paper_entry_price": 0.9965,
+    "paper_shares": 100.35,
+    "paper_pnl": null
   },
   {
     "date": "2026-05-21T23:52:11.106279+00:00",
@@ -248,7 +287,10 @@
     "resolved_price": 0.665,
     "resolved_outcome": null,
     "called_direction": "UP",
-    "polymarket_url": "https://polymarket.com/event/bitcoin-up-or-down-on-may-22-2026"
+    "polymarket_url": "https://polymarket.com/event/bitcoin-up-or-down-on-may-22-2026",
+    "paper_entry_price": 0.695,
+    "paper_shares": 143.88,
+    "paper_pnl": null
   },
   {
     "date": "2026-05-22T01:02:04.986924+00:00",
@@ -261,10 +303,13 @@
     "tweet_count": 1,
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.515,
+    "resolved_price": 0.565,
     "resolved_outcome": null,
     "called_direction": "DOWN",
-    "polymarket_url": "https://polymarket.com/event/ethereum-up-or-down-on-may-22-2026"
+    "polymarket_url": "https://polymarket.com/event/ethereum-up-or-down-on-may-22-2026",
+    "paper_entry_price": 0.565,
+    "paper_shares": 176.99,
+    "paper_pnl": null
   },
   {
     "date": "2026-05-22T02:42:58.136994+00:00",
@@ -279,9 +324,12 @@
     "posted": true,
     "low_confidence": false,
     "resolution_status": "PENDING",
-    "resolved_price": 0.65,
+    "resolved_price": 0.645,
     "resolved_outcome": null,
     "called_direction": "UP",
-    "polymarket_url": "https://polymarket.com/event/spy-up-or-down-on-may-22-2026"
+    "polymarket_url": "https://polymarket.com/event/spy-up-or-down-on-may-22-2026",
+    "paper_entry_price": 0.65,
+    "paper_shares": 153.85,
+    "paper_pnl": null
   }
 ]
