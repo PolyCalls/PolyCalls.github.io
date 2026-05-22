@@ -35,16 +35,16 @@
     "tweet_text": "XRP Up or Down today \u2014 68.5% UP on Polymarket. $13,879 in liquidity with 11.7 hours until settlement suggests limited downside potential. Calling UP.\nhttps://polymarket.com/event/xrp-up-or-down-on-may-22-2026",
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.685,
+    "resolved_price": 0.64,
     "resolved_outcome": null,
     "called_direction": "UP",
     "polymarket_url": "https://polymarket.com/event/xrp-up-or-down-on-may-22-2026",
-    "current_yes_price": 0.685,
+    "current_yes_price": 0.64,
     "paper_entry_price": 0.685,
     "paper_shares": 145.99,
     "paper_pnl": null,
-    "live_pnl": 0.0,
-    "live_price": 0.685,
-    "live_price_yes": 0.685
+    "live_pnl": -6.57,
+    "live_price": 0.64,
+    "live_price_yes": 0.64
   }
 ]
