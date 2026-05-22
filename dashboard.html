@@ -326,130 +326,203 @@
     .body { grid-template-columns: 260px 1fr 190px; }
   }
 
-  /* ── Mobile landscape / small tablet (≤920px): stack layout ─────────── */
+  /* ══════════════════════════════════════════════════════
+     MOBILE RESPONSIVE — complete structural reset
+     Strategy: break out of the desktop 100vh fixed grid,
+     reflow everything as normal block/flex document flow.
+     ══════════════════════════════════════════════════════ */
+
+  /* ── Tablet (≤920px): full layout reset ─────────────── */
   @media (max-width: 920px) {
-    /* Full-page scroll, no fixed viewport height */
-    html, body { overflow: auto; height: auto; }
-    .app {
-      display: flex;
-      flex-direction: column;
-      height: auto;
-      min-height: 100vh;
-      overflow: visible;
+
+    /* 1. Allow the page to scroll naturally */
+    html, body {
+      height: auto !important;
+      overflow: auto !important;
+      overflow-x: hidden;
     }
 
-    /* Topbar */
-    .topbar { padding: 0 14px; height: 48px; }
+    /* 2. Break .app out of fixed 100vh grid → normal column flow */
+    .app {
+      display: block !important;
+      height: auto !important;
+      min-height: 100dvh;
+      overflow: visible !important;
+    }
+
+    /* 3. Topbar stays at top, shrink slightly */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0 14px;
+      height: 48px;
+    }
     .last-up { display: none; }
     .nav-wordmark-img { height: 26px; }
     .btn-ref { padding: 0 10px; font-size: 11px; }
 
-    /* Stats bar: scrollable single row */
-    .stats-bar { padding: 0 10px; height: auto; min-height: 50px; flex-wrap: nowrap; overflow-x: auto; padding-top: 6px; padding-bottom: 6px; }
-    .stat-main { padding-right: 10px; gap: 5px; }
-    .wr-num { font-size: 20px; }
+    /* 4. Stats bar: single scrollable row, no height constraint */
+    .stats-bar {
+      position: sticky;
+      top: 48px;
+      z-index: 99;
+      height: auto !important;
+      padding: 6px 12px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      flex-wrap: nowrap;
+    }
+    .stats-bar::-webkit-scrollbar { display: none; }
+    .stat-main { padding-right: 10px; gap: 6px; flex-shrink: 0; }
+    .wr-num { font-size: 22px; }
     .streak-pill { display: none; }
-    .stat-cells { flex: 1; min-width: 0; }
-    .sc { padding: 0 6px; min-width: 40px; flex: 1; }
-    .sc-val { font-size: 16px; }
-    .sc-lbl { font-size: 7px; letter-spacing: 0; }
+    .stat-cells { display: flex; flex: 1; min-width: 0; }
+    .sc { padding: 0 8px; min-width: 44px; }
+    .sc-val { font-size: 17px; }
+    .sc-lbl { font-size: 8px; letter-spacing: 0; }
 
-    /* Body: single column stack */
-    .body { display: flex; flex-direction: column; overflow: visible; height: auto; }
-    .col { border-right: none; border-bottom: 1px solid var(--border); overflow: visible; min-height: auto; }
-    .col-body { overflow: visible; max-height: none; height: auto; }
+    /* 5. Body: single-column block stack */
+    .body {
+      display: block !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
 
-    /* Open calls: horizontal swipeable carousel */
+    /* 6. Each column: full width block, scrolls naturally */
+    .col {
+      display: block !important;
+      width: 100% !important;
+      height: auto !important;
+      overflow: visible !important;
+      border-right: none !important;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* 7. Column bodies: natural height, no clip */
+    .col-body {
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+      min-height: 0 !important;
+    }
+
+    /* 8. Open calls: horizontal swipeable carousel */
     #open-col {
-      display: flex; flex-direction: row;
-      overflow-x: auto; overflow-y: hidden;
-      padding: 10px 12px; gap: 10px;
+      display: flex !important;
+      flex-direction: row !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      padding: 12px;
+      gap: 10px;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
+      height: auto !important;
+      max-height: none !important;
+      /* Ensure carousel is visible height */
+      min-height: 160px;
     }
     #open-col::-webkit-scrollbar { display: none; }
     .open-card {
-      min-width: 280px; max-width: 280px;
-      margin: 0; scroll-snap-align: start; flex-shrink: 0;
+      min-width: 280px;
+      max-width: 280px;
+      flex-shrink: 0;
+      margin: 0;
+      scroll-snap-align: start;
     }
     .oc-tweet { display: none; }
 
-    /* Feed table: hide price column, tighten layout */
+    /* 9. Feed table: tighter, no tweet column */
+    .tq-tweet { display: none; }
+    .tq { max-width: none; width: 100%; }
+    .tq-text { white-space: normal; line-height: 1.3; font-size: 11px; }
+    .feed-table {
+      font-size: 11px;
+      table-layout: fixed;
+      width: 100%;
+    }
+    .feed-table td, .feed-table th { padding: 8px 6px; }
     .feed-table thead th:nth-child(4),
     .feed-table td:nth-child(4) { display: none; }
-    .tq { max-width: none; width: 100%; }
-    .tq-tweet { display: none; }
-    .tq-text { white-space: normal; line-height: 1.3; font-size: 11px; }
-    .feed-table { font-size: 11px; table-layout: fixed; width: 100%; }
-    .feed-table td, .feed-table th { padding: 8px 6px; }
-    .feed-table th:nth-child(1), .feed-table td:nth-child(1) { width: 72px; }
-    .feed-table th:nth-child(2), .feed-table td:nth-child(2) { width: 46px; }
-    .feed-filters { padding: 8px 10px; gap: 6px; }
+    .feed-table th:nth-child(1), .feed-table td:nth-child(1) { width: 70px; }
+    .feed-table th:nth-child(2), .feed-table td:nth-child(2) { width: 44px; }
+    .feed-filters { padding: 8px 12px; gap: 6px; }
     .fb { font-size: 11px; height: 28px; padding: 0 12px; }
 
-    /* Right col (by category): horizontal wrapping tiles */
+    /* 10. Right col (by category): wrapping tiles */
     #right-col {
-      display: flex; flex-direction: row; flex-wrap: wrap;
-      overflow: visible; padding: 10px 12px; gap: 8px;
+      display: flex !important;
+      flex-direction: row;
+      flex-wrap: wrap;
+      overflow: visible !important;
+      height: auto !important;
+      padding: 12px;
+      gap: 8px;
     }
-    .bk-card { flex: 1 1 120px; margin: 0; }
+    .bk-card { flex: 1 1 130px; margin: 0; }
 
-    /* Footer */
-    .footer-bar { flex-direction: column; gap: 4px; text-align: center; padding: 10px 14px; }
+    /* 11. Footer */
+    .footer-bar { flex-direction: column; gap: 4px; text-align: center; padding: 12px 14px; }
   }
 
-  /* ── Mobile portrait (≤600px): compact everything ────────────────────── */
+  /* ── Mobile portrait (≤600px): compact further ──────── */
   @media (max-width: 600px) {
-    /* Topbar */
-    .topbar { padding: 0 12px; }
-    .nav-wordmark-img { height: 24px; }
-    .btn-ref { padding: 0 10px; font-size: 11px; }
 
-    /* Stats: snug but readable */
-    .stats-bar { padding: 4px 10px; }
-    .wr-num { font-size: 18px; }
+    .topbar { padding: 0 12px; height: 44px; }
+    .stats-bar { top: 44px; padding: 5px 10px; }
+    .nav-wordmark-img { height: 23px; }
+
+    /* Stats: fit everything in one row */
+    .wr-num { font-size: 19px; }
     .sc-val { font-size: 15px; }
     .sc-lbl { font-size: 7px; }
     .sc { padding: 0 5px; min-width: 36px; }
     .stat-main { padding-right: 8px; gap: 4px; }
 
-    /* Open cards: near full width, one visible at a time */
-    #open-col { padding: 10px; gap: 8px; }
+    /* Open cards: almost full width */
+    #open-col { padding: 10px; gap: 8px; min-height: 200px; }
     .open-card {
-      min-width: calc(100vw - 44px);
-      max-width: calc(100vw - 44px);
-      padding: 12px;
+      min-width: calc(100vw - 40px);
+      max-width: calc(100vw - 40px);
+      padding: 14px;
     }
-    .oc-q { font-size: 13px; line-height: 1.3; }
-    .oc-prob { font-size: 22px; }
+    .oc-q { font-size: 13px; line-height: 1.35; }
+    .oc-prob { font-size: 24px; }
     .oc-prob-lbl { font-size: 9px; }
     .live-pnl { font-size: 13px; }
     .live-pnl-lbl { font-size: 9px; }
     .oc-foot { margin-top: 10px; }
 
-    /* Col header */
     .col-head { padding: 8px 12px; }
     .col-title { font-size: 10px; }
 
-    /* Feed: hide date, compact */
+    /* Feed: hide date column */
     .feed-table thead th:nth-child(5),
     .feed-table td:nth-child(5) { display: none; }
     .sbadge { font-size: 9px; padding: 2px 6px; }
     .feed-filters { padding: 8px 10px; gap: 5px; }
     .fb { font-size: 10px; height: 26px; padding: 0 10px; }
 
-    /* Category breakdown: 2-col grid */
-    #right-col { gap: 6px; padding: 8px 10px; }
+    /* Category: 2-column grid */
+    #right-col { padding: 10px; gap: 6px; }
     .bk-card { flex: 1 1 calc(50% - 6px); }
   }
 
-  /* ── Very small screens (≤380px): iPhone SE / older Android ─────────── */
+  /* ── Very small (≤380px): iPhone SE / compact Android ── */
   @media (max-width: 380px) {
-    .wr-num { font-size: 16px; }
+    .topbar { height: 42px; }
+    .stats-bar { top: 42px; padding: 4px 8px; }
+    .wr-num { font-size: 17px; }
     .sc-val { font-size: 13px; }
     .sc-lbl { font-size: 6px; }
-    .open-card { min-width: calc(100vw - 28px); max-width: calc(100vw - 28px); }
+    .sc { padding: 0 4px; min-width: 30px; }
+    .open-card {
+      min-width: calc(100vw - 24px);
+      max-width: calc(100vw - 24px);
+    }
     .feed-table { font-size: 10px; }
     .bk-card { flex: 1 1 100%; }
     .fb { font-size: 10px; padding: 0 8px; }
