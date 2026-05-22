@@ -538,24 +538,30 @@ let allData = [];
 let currentFilter = "ALL";
 
 async function loadData() {
-  // Always try fetching fresh calls_resolved.json first (bypasses stale embedded data)
+  // Use embedded data immediately so the page never shows blank
+  if (window.DASHBOARD_DATA && window.DASHBOARD_DATA.length > 0) {
+    allData = window.DASHBOARD_DATA;
+    document.getElementById("last-up").textContent = "Updated " + new Date().toLocaleTimeString();
+    render();
+  }
+
+  // Then try to fetch fresher data in the background
   try {
     const r = await fetch("data/calls_resolved.json?" + Date.now());
     if (r.ok) {
-      allData = await r.json();
-      document.getElementById("last-up").textContent = "Updated " + new Date().toLocaleTimeString();
-      render(); return;
+      const fresh = await r.json();
+      if (fresh && fresh.length >= (allData ? allData.length : 0)) {
+        allData = fresh;
+        document.getElementById("last-up").textContent = "Updated " + new Date().toLocaleTimeString();
+        render();
+      }
     }
   } catch (e) {}
 
-  // Fall back to embedded window.DASHBOARD_DATA
-  if (window.DASHBOARD_DATA) {
-    allData = window.DASHBOARD_DATA;
-    document.getElementById("last-up").textContent = "Updated " + new Date().toLocaleTimeString();
-    render(); return;
+  // If still no data at all
+  if (!allData || allData.length === 0) {
+    document.getElementById("center-col").innerHTML = '<div class="err">No calls yet — check back soon.</div>';
   }
-
-  document.getElementById("center-col").innerHTML = '<div class="err">No data yet. Run the pipeline then refresh.</div>';
 }
 
 function setFilter(f, btn) {
