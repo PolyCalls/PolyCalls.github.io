@@ -303,16 +303,6 @@
   .td { font-size: 11px; color: var(--muted2); white-space: nowrap; }
 
   /* ── BREAKDOWN (right col) ── */
-  .bk-card {
-    margin: 8px 10px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 9px;
-    padding: 10px 12px;
-  }
-  .bk-cat  { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing:.5px; color: var(--muted); margin-bottom:4px; }
-  .bk-wr   { font-size: 22px; font-weight: 900; letter-spacing:-1px; line-height:1; margin-bottom:3px; }
-  .bk-det  { font-size: 10px; color: var(--muted2); }
 
   /* ── FOOTER ── */
   .footer-bar {
@@ -510,13 +500,21 @@
       </div>
     </div>
 
-    <!-- RIGHT: By Category -->
+    <!-- RIGHT: @polycalls Live X Feed -->
     <div class="col" style="border-left:1px solid var(--border)">
       <div class="col-head">
-        <div class="col-title">By Category</div>
+        <div class="col-title">@polycalls on X</div>
       </div>
-      <div class="col-body" id="right-col">
-        <div class="empty">—</div>
+      <div class="col-body" id="right-col" style="padding:0;overflow:hidden">
+        <a class="twitter-timeline"
+           data-theme="light"
+           data-chrome="noheader nofooter noborders transparent"
+           data-tweet-limit="5"
+           data-height="600"
+           href="https://twitter.com/polycalls">
+          Tweets by @polycalls
+        </a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       </div>
     </div>
 
@@ -659,7 +657,6 @@ function render() {
 
   renderOpenCalls();
   renderCenter();
-  renderBreakdown();
   startLiveRefresh();
 }
 
@@ -731,15 +728,6 @@ function renderCenter() {
   </table>`;
 }
 
-function renderBreakdown() {
-  const cats = {};
-  for (const r of allData) {
-    const c = r.category||"Other";
-    if (!cats[c]) cats[c]={w:0,l:0,p:0};
-    if (r.resolution_status==="WIN")          cats[c].w++;
-    else if (r.resolution_status==="LOSS")    cats[c].l++;
-    else if (r.resolution_status==="PENDING") cats[c].p++;
-  }
   const col = document.getElementById("right-col");
   const entries = Object.entries(cats);
   if (!entries.length) { col.innerHTML='<div class="empty">—</div>'; return; }
