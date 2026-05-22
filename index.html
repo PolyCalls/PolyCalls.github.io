@@ -211,6 +211,8 @@
   .open-card:hover { box-shadow: 0 2px 8px rgba(59,111,239,.1); }
   .oc-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; margin-bottom: 8px; }
   .oc-q { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.35; flex: 1; }
+  .oc-tweet { font-size: 11px; color: var(--muted); line-height: 1.4; margin-top: 5px; font-style: italic; }
+  .tq-tweet { font-size: 10px; color: var(--muted); margin-top: 2px; font-style: italic; line-height: 1.3; }
   .dir-chip {
     display: inline-flex; align-items: center;
     padding: 2px 7px; border-radius: 5px;
@@ -630,11 +632,13 @@ function renderOpenCalls() {
   col.innerHTML = open.map(r => {
     const yp = r.yes_price!=null ? (r.yes_price*100).toFixed(1)+"%" : "—";
     const url = r.polymarket_url || "https://polymarket.com/markets";
+    const tweetSnippet = r.tweet_text ? `<div class="oc-tweet">${r.tweet_text.split("\n")[0].substring(0,120)}${r.tweet_text.length>120?"…":""}</div>` : "";
     return `<div class="open-card" onclick="window.open('${url}','_blank')" style="cursor:pointer" title="View on Polymarket">
       <div class="oc-top">
         <div class="oc-q">${r.question||"—"}</div>
         ${chip(r.called_direction)}
       </div>
+      ${tweetSnippet}
       <div class="oc-foot">
         <div>
           <div class="oc-prob">${yp}</div>
@@ -669,7 +673,7 @@ function renderCenter() {
     return `<tr onclick="window.open('${url}','_blank')" title="View on Polymarket">
       <td>${badge}</td>
       <td>${chip(r.called_direction)}</td>
-      <td class="tq"><div class="tq-text" title="${(r.question||"").replace(/"/g,"&quot;")}">${r.question||"—"}</div>${outcome}</td>
+      <td class="tq"><div class="tq-text" title="${(r.question||"").replace(/"/g,"&quot;")}">${r.question||"—"}</div>${outcome}${r.tweet_text?`<div class="tq-tweet">${r.tweet_text.split("\n")[0].substring(0,100)}${r.tweet_text.split("\n")[0].length>100?"…":""}</div>`:""}</td>
       <td class="tp">${yp}</td>
       <td class="td">${fmtDate(r.date)}</td>
     </tr>`;
