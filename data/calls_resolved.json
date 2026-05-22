@@ -11,16 +11,16 @@
     "tweet_text": "ETH Up or Down today \u2014 53.5% UP on Polymarket. $25,499 in liquidity indicates significant interest \u2014 a reversal with 12.4 hours left is unlikely. Calling UP.\nhttps://polymarket.com/event/ethereum-up-or-down-on-may-22-2026",
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.535,
+    "resolved_price": 0.575,
     "resolved_outcome": null,
     "called_direction": "UP",
     "polymarket_url": "https://polymarket.com/event/ethereum-up-or-down-on-may-22-2026",
-    "current_yes_price": 0.535,
+    "current_yes_price": 0.575,
     "paper_entry_price": 0.535,
     "paper_shares": 186.92,
     "paper_pnl": null,
-    "live_pnl": 0.0,
-    "live_price": 0.535,
-    "live_price_yes": 0.535
+    "live_pnl": 7.48,
+    "live_price": 0.575,
+    "live_price_yes": 0.575
   }
 ]
