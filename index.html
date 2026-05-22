@@ -738,20 +738,7 @@ function renderCenter() {
   </table>`;
 }
 
-  const col = document.getElementById("right-col");
-  const entries = Object.entries(cats);
-  if (!entries.length) { col.innerHTML='<div class="empty">—</div>'; return; }
-  col.innerHTML = entries.map(([name,d]) => {
-    const s = d.w+d.l;
-    const wr = s>0 ? (d.w/s*100).toFixed(0)+"%" : "N/A";
-    const color = s===0?"var(--muted)": d.w/s>=.6?"var(--green)": d.w/s>=.4?"var(--amber)":"var(--red)";
-    return `<div class="bk-card">
-      <div class="bk-cat">${name}</div>
-      <div class="bk-wr" style="color:${color}">${wr}</div>
-      <div class="bk-det">${d.w}W &middot; ${d.l}L &middot; ${d.p} open</div>
-    </div>`;
-  }).join("");
-}
+
 
 
 
