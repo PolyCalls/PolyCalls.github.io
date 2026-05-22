@@ -345,14 +345,14 @@
     .btn-ref { padding: 0 10px; font-size: 11px; }
 
     /* Stats bar: scrollable single row */
-    .stats-bar { padding: 0 12px; height: 52px; flex-wrap: nowrap; overflow-x: auto; }
-    .stat-main { padding-right: 10px; gap: 6px; }
-    .wr-num { font-size: 22px; }
-    .streak-pill { font-size: 10px; padding: 2px 7px; }
+    .stats-bar { padding: 0 10px; height: auto; min-height: 50px; flex-wrap: nowrap; overflow-x: auto; padding-top: 6px; padding-bottom: 6px; }
+    .stat-main { padding-right: 10px; gap: 5px; }
+    .wr-num { font-size: 20px; }
+    .streak-pill { display: none; }
     .stat-cells { flex: 1; min-width: 0; }
-    .sc { padding: 0 8px; min-width: 44px; }
-    .sc-val { font-size: 17px; }
-    .sc-lbl { font-size: 8px; }
+    .sc { padding: 0 6px; min-width: 40px; flex: 1; }
+    .sc-val { font-size: 16px; }
+    .sc-lbl { font-size: 7px; letter-spacing: 0; }
 
     /* Body: single column stack */
     .body { display: flex; flex-direction: column; overflow: visible; height: auto; }
@@ -370,16 +370,23 @@
     }
     #open-col::-webkit-scrollbar { display: none; }
     .open-card {
-      min-width: 260px; max-width: 260px;
+      min-width: 280px; max-width: 280px;
       margin: 0; scroll-snap-align: start; flex-shrink: 0;
     }
+    .oc-tweet { display: none; }
 
-    /* Feed table: hide price column */
+    /* Feed table: hide price column, tighten layout */
     .feed-table thead th:nth-child(4),
     .feed-table td:nth-child(4) { display: none; }
-    .tq { max-width: none; }
-    .feed-table { font-size: 12px; }
-    .feed-table td, .feed-table th { padding: 7px 8px; }
+    .tq { max-width: none; width: 100%; }
+    .tq-tweet { display: none; }
+    .tq-text { white-space: normal; line-height: 1.3; font-size: 11px; }
+    .feed-table { font-size: 11px; table-layout: fixed; width: 100%; }
+    .feed-table td, .feed-table th { padding: 8px 6px; }
+    .feed-table th:nth-child(1), .feed-table td:nth-child(1) { width: 72px; }
+    .feed-table th:nth-child(2), .feed-table td:nth-child(2) { width: 46px; }
+    .feed-filters { padding: 8px 10px; gap: 6px; }
+    .fb { font-size: 11px; height: 28px; padding: 0 12px; }
 
     /* Right col (by category): horizontal wrapping tiles */
     #right-col {
@@ -394,43 +401,58 @@
 
   /* ── Mobile portrait (≤600px): compact everything ────────────────────── */
   @media (max-width: 600px) {
-    /* Stats: tighter */
-    .stats-bar { padding: 0 10px; height: 50px; }
-    .wr-num { font-size: 19px; }
+    /* Topbar */
+    .topbar { padding: 0 12px; }
+    .nav-wordmark-img { height: 24px; }
+    .btn-ref { padding: 0 10px; font-size: 11px; }
+
+    /* Stats: snug but readable */
+    .stats-bar { padding: 4px 10px; }
+    .wr-num { font-size: 18px; }
     .sc-val { font-size: 15px; }
     .sc-lbl { font-size: 7px; }
-    .sc { padding: 0 6px; min-width: 38px; }
+    .sc { padding: 0 5px; min-width: 36px; }
+    .stat-main { padding-right: 8px; gap: 4px; }
 
-    /* Open cards: full width minus padding */
-    .open-card { min-width: calc(100vw - 44px); max-width: calc(100vw - 44px); }
-    .oc-q { font-size: 12px; }
-    .oc-prob { font-size: 18px; }
+    /* Open cards: near full width, one visible at a time */
+    #open-col { padding: 10px; gap: 8px; }
+    .open-card {
+      min-width: calc(100vw - 44px);
+      max-width: calc(100vw - 44px);
+      padding: 12px;
+    }
+    .oc-q { font-size: 13px; line-height: 1.3; }
+    .oc-prob { font-size: 22px; }
+    .oc-prob-lbl { font-size: 9px; }
+    .live-pnl { font-size: 13px; }
+    .live-pnl-lbl { font-size: 9px; }
+    .oc-foot { margin-top: 10px; }
 
-    /* Feed: hide date column too, maximise question space */
+    /* Col header */
+    .col-head { padding: 8px 12px; }
+    .col-title { font-size: 10px; }
+
+    /* Feed: hide date, compact */
     .feed-table thead th:nth-child(5),
     .feed-table td:nth-child(5) { display: none; }
-    .feed-table { font-size: 11px; }
-    .tq-text { font-size: 11px; }
-    .sbadge { font-size: 9px; padding: 2px 5px; }
-    .live-pnl { font-size: 10px; }
+    .sbadge { font-size: 9px; padding: 2px 6px; }
+    .feed-filters { padding: 8px 10px; gap: 5px; }
+    .fb { font-size: 10px; height: 26px; padding: 0 10px; }
 
     /* Category breakdown: 2-col grid */
     #right-col { gap: 6px; padding: 8px 10px; }
     .bk-card { flex: 1 1 calc(50% - 6px); }
-
-    /* Topbar logo */
-    .nav-wordmark-img { height: 22px; }
-    .topbar { padding: 0 10px; }
   }
 
   /* ── Very small screens (≤380px): iPhone SE / older Android ─────────── */
   @media (max-width: 380px) {
-    .wr-num { font-size: 17px; }
+    .wr-num { font-size: 16px; }
     .sc-val { font-size: 13px; }
-    .stats-bar { height: 46px; }
+    .sc-lbl { font-size: 6px; }
     .open-card { min-width: calc(100vw - 28px); max-width: calc(100vw - 28px); }
     .feed-table { font-size: 10px; }
     .bk-card { flex: 1 1 100%; }
+    .fb { font-size: 10px; padding: 0 8px; }
   }
 </style>
 </head>
@@ -482,7 +504,6 @@
     <div class="col">
       <div class="col-head">
         <div class="col-title">Open Calls <span class="cpill" id="open-count">0</span></div>
-        <span style="font-size:10px;color:var(--muted)">Watching</span>
       </div>
       <div class="col-body" id="open-col">
         <div class="empty">No open calls.</div>
@@ -672,7 +693,7 @@ function renderOpenCalls() {
   col.innerHTML = open.map(r => {
     const yp = r.yes_price!=null ? (r.yes_price*100).toFixed(1)+"%" : "—";
     const url = r.polymarket_url || "https://polymarket.com/markets";
-    const tweetSnippet = r.tweet_text ? `<div class="oc-tweet">${r.tweet_text.split("\n")[0].substring(0,120)}${r.tweet_text.length>120?"…":""}</div>` : "";
+    const tweetSnippet = ""; // tweet snippet removed — too noisy
     return `<div class="open-card" data-market-id="${r.market_id||""}" onclick="window.open('${url}','_blank')" style="cursor:pointer" title="View on Polymarket">
       <div class="oc-top">
         <div class="oc-q">${r.question||"—"}${r.low_confidence?'<span class="lc-tag" title="'+r.low_confidence_reason+'">LOW CONF</span>':''}</div>
