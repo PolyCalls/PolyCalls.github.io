@@ -231,6 +231,19 @@
   .oc-foot { display: flex; justify-content: space-between; align-items: flex-end; }
   .oc-prob { font-size: 18px; font-weight: 800; color: var(--blue); letter-spacing: -.5px; line-height: 1; }
   .oc-prob-lbl { font-size: 9px; color: var(--muted); margin-top: 1px; }
+  .live-pnl {
+    font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums;
+    letter-spacing: -.01em;
+  }
+  .live-pnl.pos { color: var(--green); }
+  .live-pnl.neg { color: var(--red); }
+  .live-pnl.neu { color: var(--muted); }
+  .live-pnl-lbl {
+    font-size: 10px; color: var(--muted2); margin-top: 1px;
+  }
+  .live-price-move {
+    font-size: 10px; color: var(--muted); margin-top: 2px;
+  }
   .watching-tag {
     display: inline-block;
     background: var(--amber-bg); border: 1px solid var(--amber-bd);
@@ -668,10 +681,10 @@ function renderOpenCalls() {
       <div class="oc-foot">
         <div>
           <div class="oc-prob">${yp}</div>
-          <div class="oc-prob-lbl">YES price</div>
+          <div class="oc-prob-lbl">YES price${r.live_price_yes!=null&&r.yes_price!=null ? ` · ${((r.live_price_yes - r.yes_price)*100).toFixed(1)}pp vs entry` : ""}</div>
         </div>
-        <div>
-          <div class="watching-tag">Watching</div>
+        <div style="text-align:right">
+          ${r.live_pnl!=null ? `<div class="live-pnl ${r.live_pnl>0?"pos":r.live_pnl<0?"neg":"neu"}">${r.live_pnl>=0?"+":""}$${Math.abs(r.live_pnl).toFixed(2)} unreal.</div><div class="live-pnl-lbl">live est. · 30-min delayed</div>` : `<div class="watching-tag">Watching</div>`}
           <div class="oc-date">${fmtDate(r.date)}</div>
         </div>
       </div>
@@ -695,9 +708,12 @@ function renderCenter() {
                 : s==="LOSS"? '<span class="sbadge sl">Loss</span>'
                 :             '<span class="sbadge sp">Pending</span>';
     const outcome = r.resolved_outcome ? `<div class="tq-out">→ ${r.resolved_outcome}</div>` : "";
+    const livePnlCell = s==="PENDING" && r.live_pnl!=null
+      ? `<span class="live-pnl ${r.live_pnl>0?"pos":r.live_pnl<0?"neg":"neu"}" title="Unrealized P&L · 30-min delayed">${r.live_pnl>=0?"+":""}$${Math.abs(r.live_pnl).toFixed(2)}</span>`
+      : "";
     const url = r.polymarket_url || "https://polymarket.com/markets";
     return `<tr onclick="window.open('${url}','_blank')" title="View on Polymarket">
-      <td>${badge}</td>
+      <td>${badge}${livePnlCell ? `<div style="margin-top:3px">${livePnlCell}</div>` : ""}</td>
       <td>${chip(r.called_direction)}</td>
       <td class="tq"><div class="tq-text" title="${(r.question||"").replace(/"/g,"&quot;")}">${r.question||"—"}${r.low_confidence?'<span class="lc-tag" title="'+r.low_confidence_reason+'">LOW CONF</span>':''}</div>${outcome}${r.tweet_text?`<div class="tq-tweet">${r.tweet_text.split("\n")[0].substring(0,100)}${r.tweet_text.split("\n")[0].length>100?"…":""}</div>`:""}</td>
       <td class="tp">${yp}</td>
