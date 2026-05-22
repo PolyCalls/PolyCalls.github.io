@@ -538,20 +538,24 @@ let allData = [];
 let currentFilter = "ALL";
 
 async function loadData() {
-  if (window.DASHBOARD_DATA && window.DASHBOARD_DATA.length > 0) {
+  // Always try fetching fresh calls_resolved.json first (bypasses stale embedded data)
+  try {
+    const r = await fetch("data/calls_resolved.json?" + Date.now());
+    if (r.ok) {
+      allData = await r.json();
+      document.getElementById("last-up").textContent = "Updated " + new Date().toLocaleTimeString();
+      render(); return;
+    }
+  } catch (e) {}
+
+  // Fall back to embedded window.DASHBOARD_DATA
+  if (window.DASHBOARD_DATA) {
     allData = window.DASHBOARD_DATA;
     document.getElementById("last-up").textContent = "Updated " + new Date().toLocaleTimeString();
     render(); return;
   }
-  try {
-    const r = await fetch("data/calls_resolved.json?" + Date.now());
-    if (!r.ok) throw new Error();
-    allData = await r.json();
-    document.getElementById("last-up").textContent = "Updated " + new Date().toLocaleTimeString();
-    render();
-  } catch {
-    document.getElementById("center-col").innerHTML = '<div class="err">No data yet. Run the pipeline then refresh.</div>';
-  }
+
+  document.getElementById("center-col").innerHTML = '<div class="err">No data yet. Run the pipeline then refresh.</div>';
 }
 
 function setFilter(f, btn) {
