@@ -245,7 +245,7 @@
     "tweet_count": 1,
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.665,
+    "resolved_price": 0.675,
     "resolved_outcome": null,
     "called_direction": "UP",
     "polymarket_url": "https://polymarket.com/event/bitcoin-up-or-down-on-may-22-2026"
@@ -261,27 +261,9 @@
     "tweet_count": 1,
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.545,
+    "resolved_price": 0.535,
     "resolved_outcome": null,
     "called_direction": "DOWN",
     "polymarket_url": "https://polymarket.com/event/ethereum-up-or-down-on-may-22-2026"
-  },
-  {
-    "date": "2026-05-22T02:07:19.457975+00:00",
-    "market_id": "daily_509501",
-    "question": "S&P 500 (SPY) closes above ___ on May 22?",
-    "yes_price": 0.002,
-    "edge_score": 100.0,
-    "category": "Index",
-    "model": "gemma3:12b",
-    "tweet_count": 1,
-    "posted": true,
-    "low_confidence": true,
-    "low_confidence_reason": "Market was 0.2% certain at time of call \u2014 near-certain outcome, not a genuine edge",
-    "resolution_status": "PENDING",
-    "resolved_price": 0.0025,
-    "resolved_outcome": null,
-    "called_direction": "NO",
-    "polymarket_url": "https://polymarket.com/event/spy-closes-above-on-may-22-2026"
   }
 ]
