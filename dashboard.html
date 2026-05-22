@@ -660,6 +660,7 @@ function render() {
   renderOpenCalls();
   renderCenter();
   renderBreakdown();
+  startLiveRefresh();
 }
 
 function renderOpenCalls() {
@@ -672,7 +673,7 @@ function renderOpenCalls() {
     const yp = r.yes_price!=null ? (r.yes_price*100).toFixed(1)+"%" : "—";
     const url = r.polymarket_url || "https://polymarket.com/markets";
     const tweetSnippet = r.tweet_text ? `<div class="oc-tweet">${r.tweet_text.split("\n")[0].substring(0,120)}${r.tweet_text.length>120?"…":""}</div>` : "";
-    return `<div class="open-card" onclick="window.open('${url}','_blank')" style="cursor:pointer" title="View on Polymarket">
+    return `<div class="open-card" data-market-id="${r.market_id||""}" onclick="window.open('${url}','_blank')" style="cursor:pointer" title="View on Polymarket">
       <div class="oc-top">
         <div class="oc-q">${r.question||"—"}${r.low_confidence?'<span class="lc-tag" title="'+r.low_confidence_reason+'">LOW CONF</span>':''}</div>
         ${chip(r.called_direction)}
@@ -681,10 +682,13 @@ function renderOpenCalls() {
       <div class="oc-foot">
         <div>
           <div class="oc-prob">${yp}</div>
-          <div class="oc-prob-lbl">YES price${r.live_price_yes!=null&&r.yes_price!=null ? ` · ${((r.live_price_yes - r.yes_price)*100).toFixed(1)}pp vs entry` : ""}</div>
+          <div class="oc-prob-lbl">YES price at entry</div>
         </div>
         <div style="text-align:right">
-          ${r.live_pnl!=null ? `<div class="live-pnl ${r.live_pnl>0?"pos":r.live_pnl<0?"neg":"neu"}">${r.live_pnl>=0?"+":""}$${Math.abs(r.live_pnl).toFixed(2)} unreal.</div><div class="live-pnl-lbl">live est. · 30-min delayed</div>` : `<div class="watching-tag">Watching</div>`}
+          <div class="live-pnl-block">
+            <div class="live-pnl neu">Fetching…</div>
+            <div class="live-pnl-lbl">live · updates every 2 min</div>
+          </div>
           <div class="oc-date">${fmtDate(r.date)}</div>
         </div>
       </div>
@@ -713,7 +717,7 @@ function renderCenter() {
       : "";
     const url = r.polymarket_url || "https://polymarket.com/markets";
     return `<tr onclick="window.open('${url}','_blank')" title="View on Polymarket">
-      <td>${badge}${livePnlCell ? `<div style="margin-top:3px">${livePnlCell}</div>` : ""}</td>
+      <td data-market-id="${r.market_id||""}">${badge}${s==="PENDING"&&!r.low_confidence ? `<div style="margin-top:3px"><span class="live-pnl-cell live-pnl neu" title="Unrealized P&L · updates every 2 min">…</span></div>` : livePnlCell ? `<div style="margin-top:3px">${livePnlCell}</div>` : ""}</td>
       <td>${chip(r.called_direction)}</td>
       <td class="tq"><div class="tq-text" title="${(r.question||"").replace(/"/g,"&quot;")}">${r.question||"—"}${r.low_confidence?'<span class="lc-tag" title="'+r.low_confidence_reason+'">LOW CONF</span>':''}</div>${outcome}${r.tweet_text?`<div class="tq-tweet">${r.tweet_text.split("\n")[0].substring(0,100)}${r.tweet_text.split("\n")[0].length>100?"…":""}</div>`:""}</td>
       <td class="tp">${yp}</td>
@@ -752,6 +756,127 @@ function renderBreakdown() {
 }
 
 
+
+
+// ── Live P&L Refresh Engine ───────────────────────────────────────────────────
+// Fetches current Polymarket prices directly from the browser every 2 minutes
+// for all PENDING calls. Updates unrealized P&L in the DOM without a page reload.
+
+const LIVE_REFRESH_INTERVAL_MS = 120_000; // 2 minutes
+const GAMMA_EVENTS_URL  = "https://gamma-api.polymarket.com/events/";
+const GAMMA_MARKETS_URL = "https://gamma-api.polymarket.com/markets/";
+
+let liveRefreshTimer = null;
+let lastRefreshTime  = null;
+
+function fmtLivePnl(pnl) {
+  const sign = pnl >= 0 ? "+" : "";
+  return sign + "$" + Math.abs(pnl).toFixed(2);
+}
+
+function getLivePnlClass(pnl) {
+  return pnl > 0 ? "pos" : pnl < 0 ? "neg" : "neu";
+}
+
+async function fetchCurrentYesPrice(record) {
+  const mid = record.market_id || "";
+  try {
+    if (mid.startsWith("daily_")) {
+      const eventId = mid.replace("daily_", "");
+      const res = await fetch(GAMMA_EVENTS_URL + eventId);
+      if (!res.ok) return null;
+      const data = await res.json();
+      const markets = data.markets || [];
+      if (!markets.length) return null;
+      const prices = JSON.parse(markets[0].outcomePrices || "[]");
+      return prices.length ? parseFloat(prices[0]) : null;
+    } else {
+      const res = await fetch(GAMMA_MARKETS_URL + mid);
+      if (!res.ok) return null;
+      const data = await res.json();
+      const prices = JSON.parse(data.outcomePrices || "[]");
+      return prices.length ? parseFloat(prices[0]) : null;
+    }
+  } catch (e) {
+    return null;
+  }
+}
+
+function calcUnrealized(record, currentYesPrice) {
+  const STAKE = (window.TRACKER_META && window.TRACKER_META.paper_stake) || 100;
+  const entryYes = record.yes_price || 0.5;
+  const dir = (record.called_direction || "").toUpperCase();
+
+  let entryPrice, currentPrice;
+  if (dir === "YES" || dir === "UP") {
+    entryPrice   = entryYes;
+    currentPrice = currentYesPrice;
+  } else {
+    entryPrice   = 1 - entryYes;
+    currentPrice = 1 - currentYesPrice;
+  }
+
+  entryPrice   = Math.max(entryPrice,   0.001);
+  currentPrice = Math.max(currentPrice, 0.001);
+
+  const unrealized = (currentPrice / entryPrice - 1) * STAKE;
+  const ppMove     = (currentYesPrice - entryYes) * 100; // percentage point move in YES price
+
+  return { unrealized: parseFloat(unrealized.toFixed(2)), ppMove: parseFloat(ppMove.toFixed(1)), currentYesPrice };
+}
+
+function updateLivePnlDOM(record, result) {
+  const mid = record.market_id || "";
+  const { unrealized, ppMove, currentYesPrice } = result;
+  const pnlStr  = fmtLivePnl(unrealized);
+  const cls     = getLivePnlClass(unrealized);
+  const ppStr   = (ppMove >= 0 ? "+" : "") + ppMove.toFixed(1) + "pp vs entry";
+  const yesStr  = (currentYesPrice * 100).toFixed(1) + "%";
+
+  // Update open call cards (oc-foot)
+  document.querySelectorAll(`[data-market-id="${mid}"] .live-pnl-block`).forEach(el => {
+    el.innerHTML = `
+      <div class="live-pnl ${cls}" title="Unrealized P&L · updates every 2 min">${pnlStr} unreal.</div>
+      <div class="live-pnl-lbl">${yesStr} now · ${ppStr}</div>
+    `;
+  });
+
+  // Update center feed table rows
+  document.querySelectorAll(`[data-market-id="${mid}"] .live-pnl-cell`).forEach(el => {
+    el.className = `live-pnl-cell live-pnl ${cls}`;
+    el.textContent = pnlStr;
+    el.title = `Unrealized · ${yesStr} now · ${ppStr} · updates every 2 min`;
+  });
+}
+
+function updateRefreshIndicator() {
+  const el = document.getElementById("live-refresh-indicator");
+  if (!el) return;
+  const now = new Date();
+  el.textContent = "⟳ Live · updated " + now.toLocaleTimeString("en-US", {hour:"2-digit", minute:"2-digit"});
+}
+
+async function runLiveRefresh() {
+  const pending = allData.filter(r => r.resolution_status === "PENDING" && !r.low_confidence);
+  if (!pending.length) return;
+
+  for (const record of pending) {
+    const currentYesPrice = await fetchCurrentYesPrice(record);
+    if (currentYesPrice === null) continue;
+    const result = calcUnrealized(record, currentYesPrice);
+    updateLivePnlDOM(record, result);
+  }
+
+  lastRefreshTime = new Date();
+  updateRefreshIndicator();
+}
+
+function startLiveRefresh() {
+  if (liveRefreshTimer) clearInterval(liveRefreshTimer);
+  runLiveRefresh(); // Run immediately on load
+  liveRefreshTimer = setInterval(runLiveRefresh, LIVE_REFRESH_INTERVAL_MS);
+}
+// ── End Live P&L Refresh Engine ───────────────────────────────────────────────
 
 loadData();
 </script>
