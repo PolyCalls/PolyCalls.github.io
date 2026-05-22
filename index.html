@@ -156,7 +156,7 @@
   /* ── BODY: 3-column grid ── */
   .body {
     display: grid;
-    grid-template-columns: 280px 1fr 180px;
+    grid-template-columns: 300px 1fr 220px;
     gap: 0;
     overflow: hidden;
     min-height: 0;
@@ -321,8 +321,14 @@
   .err { margin: 8px 10px; background: var(--red-bg); border: 1px solid var(--red-bd); color: var(--red); padding: 8px 12px; border-radius: 8px; font-size: 12px; }
 
   /* ── MOBILE RESPONSIVE ── */
+  /* ── Tablet (≤1024px): tighten right column ─────────────────────────── */
+  @media (max-width: 1024px) {
+    .body { grid-template-columns: 260px 1fr 190px; }
+  }
+
+  /* ── Mobile landscape / small tablet (≤920px): stack layout ─────────── */
   @media (max-width: 920px) {
-    /* App becomes scrollable, not fixed height */
+    /* Full-page scroll, no fixed viewport height */
     html, body { overflow: auto; height: auto; }
     .app {
       display: flex;
@@ -332,103 +338,99 @@
       overflow: visible;
     }
 
-    /* Topbar: hide timestamp, keep logo + live pill + refresh */
-    .topbar { padding: 0 14px; }
+    /* Topbar */
+    .topbar { padding: 0 14px; height: 48px; }
     .last-up { display: none; }
-    .nav-wordmark-img { height: 28px; }
+    .nav-wordmark-img { height: 26px; }
     .btn-ref { padding: 0 10px; font-size: 11px; }
 
-    /* Stats bar: single scrollable row on mobile */
-    .stats-bar {
-      padding: 0 14px;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-    }
-    .stat-main {
-      padding-right: 12px;
-      gap: 8px;
-    }
+    /* Stats bar: scrollable single row */
+    .stats-bar { padding: 0 12px; height: 52px; flex-wrap: nowrap; overflow-x: auto; }
+    .stat-main { padding-right: 10px; gap: 6px; }
     .wr-num { font-size: 22px; }
     .streak-pill { font-size: 10px; padding: 2px 7px; }
     .stat-cells { flex: 1; min-width: 0; }
-    .sc { padding: 0 6px; min-width: 44px; }
+    .sc { padding: 0 8px; min-width: 44px; }
     .sc-val { font-size: 17px; }
     .sc-lbl { font-size: 8px; }
 
-    /* Body: single column, scrollable, no height constraint */
-    .body {
-      display: flex;
-      flex-direction: column;
-      overflow: visible;
-      height: auto;
-    }
+    /* Body: single column stack */
+    .body { display: flex; flex-direction: column; overflow: visible; height: auto; }
+    .col { border-right: none; border-bottom: 1px solid var(--border); overflow: visible; min-height: auto; }
+    .col-body { overflow: visible; max-height: none; height: auto; }
 
-    /* Each column becomes a full-width block */
-    .col {
-      border-right: none;
-      border-bottom: 1px solid var(--border);
-      overflow: visible;
-      min-height: auto;
-    }
-    .col-body {
-      overflow: visible;
-      max-height: none;
-      height: auto;
-    }
-
-    /* Open calls: horizontal scroll carousel on mobile */
+    /* Open calls: horizontal swipeable carousel */
     #open-col {
-      display: flex;
-      flex-direction: row;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding: 8px 10px;
-      gap: 8px;
+      display: flex; flex-direction: row;
+      overflow-x: auto; overflow-y: hidden;
+      padding: 10px 12px; gap: 10px;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    #open-col::-webkit-scrollbar { display: none; }
     .open-card {
-      min-width: 220px;
-      max-width: 220px;
-      margin: 0;
-      scroll-snap-align: start;
-      flex-shrink: 0;
+      min-width: 260px; max-width: 260px;
+      margin: 0; scroll-snap-align: start; flex-shrink: 0;
     }
 
-    /* Center col: table becomes card list */
+    /* Feed table: hide price column */
     .feed-table thead th:nth-child(4),
-    .feed-table td:nth-child(4) { display: none; } /* hide PRICE on mobile */
-    .tq { max-width: 150px; }
+    .feed-table td:nth-child(4) { display: none; }
+    .tq { max-width: none; }
+    .feed-table { font-size: 12px; }
+    .feed-table td, .feed-table th { padding: 7px 8px; }
 
-    /* Right col (by category): show as horizontal row */
+    /* Right col (by category): horizontal wrapping tiles */
     #right-col {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      overflow: visible;
-      padding: 8px 10px;
-      gap: 8px;
+      display: flex; flex-direction: row; flex-wrap: wrap;
+      overflow: visible; padding: 10px 12px; gap: 8px;
     }
-    .bk-card {
-      flex: 1;
-      min-width: 100px;
-      margin: 0;
-    }
+    .bk-card { flex: 1 1 120px; margin: 0; }
 
-    /* Footer: stack vertically */
-    .footer-bar {
-      flex-direction: column;
-      gap: 4px;
-      text-align: center;
-      padding: 10px 14px;
-    }
+    /* Footer */
+    .footer-bar { flex-direction: column; gap: 4px; text-align: center; padding: 10px 14px; }
   }
 
+  /* ── Mobile portrait (≤600px): compact everything ────────────────────── */
   @media (max-width: 600px) {
+    /* Stats: tighter */
+    .stats-bar { padding: 0 10px; height: 50px; }
+    .wr-num { font-size: 19px; }
     .sc-val { font-size: 15px; }
-    .wr-num { font-size: 20px; }
+    .sc-lbl { font-size: 7px; }
+    .sc { padding: 0 6px; min-width: 38px; }
+
+    /* Open cards: full width minus padding */
+    .open-card { min-width: calc(100vw - 44px); max-width: calc(100vw - 44px); }
+    .oc-q { font-size: 12px; }
+    .oc-prob { font-size: 18px; }
+
+    /* Feed: hide date column too, maximise question space */
     .feed-table thead th:nth-child(5),
-    .feed-table td:nth-child(5) { display: none; } /* hide DATE on tiny screens */
+    .feed-table td:nth-child(5) { display: none; }
+    .feed-table { font-size: 11px; }
+    .tq-text { font-size: 11px; }
+    .sbadge { font-size: 9px; padding: 2px 5px; }
+    .live-pnl { font-size: 10px; }
+
+    /* Category breakdown: 2-col grid */
+    #right-col { gap: 6px; padding: 8px 10px; }
+    .bk-card { flex: 1 1 calc(50% - 6px); }
+
+    /* Topbar logo */
+    .nav-wordmark-img { height: 22px; }
+    .topbar { padding: 0 10px; }
+  }
+
+  /* ── Very small screens (≤380px): iPhone SE / older Android ─────────── */
+  @media (max-width: 380px) {
+    .wr-num { font-size: 17px; }
+    .sc-val { font-size: 13px; }
+    .stats-bar { height: 46px; }
+    .open-card { min-width: calc(100vw - 28px); max-width: calc(100vw - 28px); }
+    .feed-table { font-size: 10px; }
+    .bk-card { flex: 1 1 100%; }
   }
 </style>
 </head>
