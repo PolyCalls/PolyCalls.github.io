@@ -11,17 +11,17 @@
     "tweet_text": "ETH Up or Down today \u2014 53.5% UP on Polymarket. $25,499 in liquidity indicates significant interest \u2014 a reversal with 12.4 hours left is unlikely. Calling UP.\nhttps://polymarket.com/event/ethereum-up-or-down-on-may-22-2026",
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.535,
+    "resolved_price": 0.465,
     "resolved_outcome": null,
     "called_direction": "UP",
     "polymarket_url": "https://polymarket.com/event/ethereum-up-or-down-on-may-22-2026",
-    "current_yes_price": 0.535,
+    "current_yes_price": 0.465,
     "paper_entry_price": 0.535,
     "paper_shares": 186.92,
     "paper_pnl": null,
-    "live_pnl": 0.0,
-    "live_price": 0.535,
-    "live_price_yes": 0.535
+    "live_pnl": -13.08,
+    "live_price": 0.465,
+    "live_price_yes": 0.465
   },
   {
     "date": "2026-05-22T04:20:54.167618+00:00",
@@ -46,5 +46,29 @@
     "live_pnl": -6.57,
     "live_price": 0.64,
     "live_price_yes": 0.64
+  },
+  {
+    "date": "2026-05-22T04:54:17.329783+00:00",
+    "market_id": "daily_509537",
+    "question": "SPY (SPY) Up or Down on May 22?",
+    "yes_price": 0.7,
+    "edge_score": 103.0,
+    "category": "Index",
+    "model": "gemma3:12b",
+    "tweet_count": 1,
+    "tweet_text": "SPY Up or Down today \u2014 70% UP on Polymarket. $28,568 in liquidity with 15 hours left indicates limited downside pressure. Momentum favors continued gains. Calling UP.\nhttps://polymarket.com/event/spy-up-or-down-on-may-22-2026",
+    "posted": true,
+    "resolution_status": "PENDING",
+    "resolved_price": 0.7,
+    "resolved_outcome": null,
+    "called_direction": "UP",
+    "polymarket_url": "https://polymarket.com/event/spy-up-or-down-on-may-22-2026",
+    "current_yes_price": 0.7,
+    "paper_entry_price": 0.7,
+    "paper_shares": 142.86,
+    "paper_pnl": null,
+    "live_pnl": 0.0,
+    "live_price": 0.7,
+    "live_price_yes": 0.7
   }
 ]
