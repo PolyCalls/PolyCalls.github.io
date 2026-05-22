@@ -634,7 +634,7 @@ function chip(dir) {
 }
 
 function streak(data) {
-  const s = data.filter(r => r.resolution_status==="WIN"||r.resolution_status==="LOSS")
+  const s = data.filter(r => !r.low_confidence && (r.resolution_status==="WIN"||r.resolution_status==="LOSS"))
     .sort((a,b)=>new Date(b.date)-new Date(a.date));
   if (!s.length) return {n:0,t:null};
   const t = s[0].resolution_status; let n = 0;
@@ -643,22 +643,18 @@ function streak(data) {
 }
 
 function render() {
-  const wins    = allData.filter(r=>r.resolution_status==="WIN").length;
-  const losses  = allData.filter(r=>r.resolution_status==="LOSS").length;
-  const pending = allData.filter(r=>r.resolution_status==="PENDING").length;
+  // Genuine calls only — low-confidence markets excluded from all stats
+  const genuine = allData.filter(r => !r.low_confidence);
+  const wins    = genuine.filter(r=>r.resolution_status==="WIN").length;
+  const losses  = genuine.filter(r=>r.resolution_status==="LOSS").length;
+  const pending = genuine.filter(r=>r.resolution_status==="PENDING").length;
   const settled = wins + losses;
   const wr      = settled > 0 ? wins/settled*100 : null;
 
-  // Genuine-only win rate (excludes low-confidence near-certain markets)
-  const genuineWins    = allData.filter(r=>r.resolution_status==="WIN" && !r.low_confidence).length;
-  const genuineLosses  = allData.filter(r=>r.resolution_status==="LOSS" && !r.low_confidence).length;
-  const genuineSettled = genuineWins + genuineLosses;
-  const genuineWR      = genuineSettled > 0 ? genuineWins/genuineSettled*100 : null;
-
   const wrEl = document.getElementById("wr-num");
-  wrEl.textContent = genuineWR !== null ? genuineWR.toFixed(1)+"%" : "—";
-  wrEl.className = "wr-num " + (genuineWR===null?"": genuineWR===100?"perfect": genuineWR>=65?"great": genuineWR>=45?"ok":"bad");
-  wrEl.title = `Genuine calls only (${genuineWins}/${genuineSettled}). Total incl. low-confidence: ${wr!==null?wr.toFixed(1)+"%":"—"} (${wins}/${settled})`;
+  wrEl.textContent = wr !== null ? wr.toFixed(1)+"%" : "—";
+  wrEl.className = "wr-num " + (wr===null?"": wr===100?"perfect": wr>=65?"great": wr>=45?"ok":"bad");
+  wrEl.title = `Genuine calls only — low-confidence markets excluded (${wins}/${settled} settled)`;
 
   const st = streak(allData);
   const pill = document.getElementById("streak-pill");
@@ -667,12 +663,12 @@ function render() {
   if (st.n >= 2 && st.t==="WIN")  { pill.className="streak-pill"; emoji.textContent="🔥"; txt.textContent=st.n+"-Win Streak"; }
   else if (st.n>=2&&st.t==="LOSS"){ pill.className="streak-pill loss"; emoji.textContent="❄️"; txt.textContent=st.n+"-Loss Streak"; }
   else if (st.n===1&&st.t==="WIN"){ pill.className="streak-pill"; emoji.textContent="✅"; txt.textContent="Last Call: WIN"; }
-  else { pill.className="streak-pill neu"; emoji.textContent="📊"; txt.textContent=settled>0?wins+" of "+settled+" settled":"Building track record"; }
+  else { pill.className="streak-pill neu"; emoji.textContent="📊"; txt.textContent=settled>0?wins+" of "+settled+" genuine settled":"Building track record"; }
 
   document.getElementById("sv-wins").textContent    = wins;
   document.getElementById("sv-losses").textContent  = losses;
   document.getElementById("sv-pending").textContent = pending;
-  document.getElementById("sv-total").textContent   = allData.length;
+  document.getElementById("sv-total").textContent   = genuine.length;
   document.getElementById("sv-settled").textContent = settled;
 
   // Paper P&L — sourced from TRACKER_META embedded by resolve_calls.py
