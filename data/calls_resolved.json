@@ -243,7 +243,7 @@
     "tweet_count": 1,
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.525,
+    "resolved_price": 0.545,
     "resolved_outcome": null,
     "called_direction": "DOWN",
     "polymarket_url": "https://polymarket.com/event/ethereum-up-or-down-on-may-22-2026"
@@ -263,5 +263,23 @@
     "resolved_outcome": null,
     "called_direction": "NO",
     "polymarket_url": "https://polymarket.com/event/spy-closes-above-on-may-22-2026"
+  },
+  {
+    "date": "2026-05-22T02:40:00+00:00",
+    "market_id": "daily_509537",
+    "question": "SPY (SPY) Up or Down on May 22?",
+    "yes_price": 0.002,
+    "edge_score": 109.0,
+    "category": "Index",
+    "model": "gemma3:12b",
+    "tweet_count": 1,
+    "posted": true,
+    "tweet_url": "https://x.com/PolyCalls/status/2057644283281146334",
+    "manually_added": true,
+    "resolution_status": "PENDING",
+    "resolved_price": 0.65,
+    "resolved_outcome": null,
+    "called_direction": "DOWN",
+    "polymarket_url": "https://polymarket.com/event/spy-up-or-down-on-may-22-2026"
   }
 ]
