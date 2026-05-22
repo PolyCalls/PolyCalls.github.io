@@ -233,17 +233,17 @@
     "tweet_text": "WTI Crude Up or Down today \u2014 55% UP on Polymarket. $22,674 in liquidity suggests limited downside potential. The market is pricing in a slight upward bias. Calling UP.\nhttps://polymarket.com/event/wti-up-or-down-on-may-22-2026",
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.007,
+    "resolved_price": 0.03,
     "resolved_outcome": null,
     "called_direction": "UP",
     "polymarket_url": "https://polymarket.com/event/wti-up-or-down-on-may-22-2026",
-    "current_yes_price": 0.007,
+    "current_yes_price": 0.03,
     "paper_entry_price": 0.55,
     "paper_shares": 181.82,
     "paper_pnl": null,
-    "live_pnl": -98.73,
-    "live_price": 0.007,
-    "live_price_yes": 0.007
+    "live_pnl": -94.55,
+    "live_price": 0.03,
+    "live_price_yes": 0.03
   },
   {
     "date": "2026-05-22T09:16:35.431865+00:00",
@@ -257,17 +257,17 @@
     "tweet_text": "SPX Up or Down today \u2014 69.5% UP on Polymarket. $19,361 in liquidity with only 10.8 hours left suggests limited downside potential. Momentum favors continued upside. Calling UP.\nhttps://polymarket.com/event/spx-up-or-down-on-may-22-2026",
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.995,
+    "resolved_price": 0.9995,
     "resolved_outcome": null,
     "called_direction": "UP",
     "polymarket_url": "https://polymarket.com/event/spx-up-or-down-on-may-22-2026",
-    "current_yes_price": 0.995,
+    "current_yes_price": 0.9995,
     "paper_entry_price": 0.695,
     "paper_shares": 143.88,
     "paper_pnl": null,
-    "live_pnl": 43.17,
-    "live_price": 0.995,
-    "live_price_yes": 0.995
+    "live_pnl": 43.81,
+    "live_price": 0.9995,
+    "live_price_yes": 0.9995
   },
   {
     "date": "2026-05-22T09:48:38.590048+00:00",
@@ -475,16 +475,16 @@
     "tweet_text": "MSFT Up or Down today \u2014 58.5% UP on Polymarket. $11,601 in liquidity with 5.8 hours until settlement suggests limited downside pressure. Calling UP.\nhttps://polymarket.com/event/msft-up-or-down-on-may-22-2026",
     "posted": true,
     "resolution_status": "PENDING",
-    "resolved_price": 0.005,
+    "resolved_price": 0.0005,
     "resolved_outcome": null,
     "called_direction": "UP",
     "polymarket_url": "https://polymarket.com/event/msft-up-or-down-on-may-22-2026",
-    "current_yes_price": 0.005,
+    "current_yes_price": 0.0005,
     "paper_entry_price": 0.585,
     "paper_shares": 170.94,
     "paper_pnl": null,
-    "live_pnl": -99.15,
-    "live_price": 0.005,
-    "live_price_yes": 0.005
+    "live_pnl": -99.83,
+    "live_price": 0.001,
+    "live_price_yes": 0.0005
   }
 ]
