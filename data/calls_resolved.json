@@ -814,16 +814,16 @@
     "asset": null,
     "minutes_left": null,
     "resolution_status": "PENDING",
-    "resolved_price": 0.725,
+    "resolved_price": 0.735,
     "resolved_outcome": null,
-    "current_yes_price": 0.725,
+    "current_yes_price": 0.735,
     "polymarket_url": "https://polymarket.com/event/us-iran-nuclear-deal-before-2027",
     "paper_entry_price": 0.8,
     "paper_shares": 125.0,
     "paper_pnl": null,
-    "live_pnl": -9.38,
-    "live_price": 0.725,
-    "live_price_yes": 0.725
+    "live_pnl": -8.13,
+    "live_price": 0.735,
+    "live_price_yes": 0.735
   },
   {
     "date": "2026-05-24T02:43:02.978280+00:00",
@@ -1018,16 +1018,16 @@
     "asset": null,
     "minutes_left": null,
     "resolution_status": "PENDING",
-    "resolved_price": 0.575,
+    "resolved_price": 0.565,
     "resolved_outcome": null,
-    "current_yes_price": 0.575,
+    "current_yes_price": 0.565,
     "polymarket_url": "https://polymarket.com/event/new-rhianna-album-before-gta-vi-926",
     "paper_entry_price": 0.54,
     "paper_shares": 185.19,
     "paper_pnl": null,
-    "live_pnl": 6.48,
-    "live_price": 0.575,
-    "live_price_yes": 0.575
+    "live_pnl": 4.63,
+    "live_price": 0.565,
+    "live_price_yes": 0.565
   },
   {
     "date": "2026-05-24T03:34:17.593510+00:00",
