@@ -339,15 +339,15 @@
     "minutes_left": 29.6,
     "indicator_consensus": 6,
     "resolution_status": "PENDING",
-    "resolved_price": 0.015,
+    "resolved_price": 0.0005,
     "resolved_outcome": null,
     "polymarket_url": "https://polymarket.com/event/btc-updown-15m-1779658200",
-    "current_yes_price": 0.015,
+    "current_yes_price": 0.0005,
     "paper_entry_price": 0.505,
     "paper_shares": 198.02,
     "paper_pnl": null,
-    "live_pnl": -97.03,
-    "live_price": 0.015,
-    "live_price_yes": 0.015
+    "live_pnl": -99.8,
+    "live_price": 0.001,
+    "live_price_yes": 0.0005
   }
 ]
