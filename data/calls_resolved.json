@@ -785,16 +785,16 @@
     "asset": null,
     "minutes_left": null,
     "resolution_status": "PENDING",
-    "resolved_price": 0.265,
+    "resolved_price": 0.255,
     "resolved_outcome": null,
-    "current_yes_price": 0.265,
+    "current_yes_price": 0.255,
     "polymarket_url": "https://polymarket.com/event/starmer-out-by-june-30-2026-862-594-548-219",
     "paper_entry_price": 0.775,
     "paper_shares": 129.03,
     "paper_pnl": null,
-    "live_pnl": -5.16,
-    "live_price": 0.735,
-    "live_price_yes": 0.265
+    "live_pnl": -3.87,
+    "live_price": 0.745,
+    "live_price_yes": 0.255
   },
   {
     "date": "2026-05-24T02:36:03.777656+00:00",
@@ -872,16 +872,16 @@
     "asset": null,
     "minutes_left": null,
     "resolution_status": "PENDING",
-    "resolved_price": 0.125,
+    "resolved_price": 0.115,
     "resolved_outcome": null,
-    "current_yes_price": 0.125,
+    "current_yes_price": 0.115,
     "polymarket_url": "https://polymarket.com/event/will-the-iranian-regime-fall-by-the-end-of-2026",
     "paper_entry_price": 0.885,
     "paper_shares": 112.99,
     "paper_pnl": null,
-    "live_pnl": -1.13,
-    "live_price": 0.875,
-    "live_price_yes": 0.125
+    "live_pnl": 0.0,
+    "live_price": 0.885,
+    "live_price_yes": 0.115
   },
   {
     "date": "2026-05-24T02:57:06.309010+00:00",
