@@ -434,15 +434,15 @@
     "minutes_left": 19.4,
     "indicator_consensus": 6,
     "resolution_status": "PENDING",
-    "resolved_price": 0.345,
+    "resolved_price": 0.005,
     "resolved_outcome": null,
     "polymarket_url": "https://polymarket.com/event/eth-updown-15m-1779660900",
-    "current_yes_price": 0.345,
+    "current_yes_price": 0.005,
     "paper_entry_price": 0.505,
     "paper_shares": 198.02,
     "paper_pnl": null,
-    "live_pnl": -31.68,
-    "live_price": 0.345,
-    "live_price_yes": 0.345
+    "live_pnl": -99.01,
+    "live_price": 0.005,
+    "live_price_yes": 0.005
   }
 ]
