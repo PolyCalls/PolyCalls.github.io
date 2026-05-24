@@ -810,10 +810,30 @@ function renderCenter() {
       ? `<span class="live-pnl ${r.live_pnl>0?"pos":r.live_pnl<0?"neg":"neu"}" title="Unrealized P&L · 30-min delayed">${r.live_pnl>=0?"+":""}$${Math.abs(r.live_pnl).toFixed(2)}</span>`
       : "";
     const url = r.polymarket_url || "https://polymarket.com/markets";
+
+    // 15-min specific signals column
+    const consensus = r.indicator_consensus;
+    const volSpike  = r.volume_spike_ratio;
+    const volDelta  = r.volume_delta_pct;
+    const minsLeft  = r.minutes_left;
+    let signalsHtml = "";
+    if (consensus != null) {
+      const consColor = consensus >= 7 ? "#4ade80" : consensus >= 6 ? "#86efac" : "#fbbf24";
+      signalsHtml += `<span style="color:${consColor};font-weight:600">${consensus}/9</span> signals`;
+    }
+    if (volSpike != null) {
+      const spikeColor = volSpike >= 1.5 ? "#4ade80" : volSpike < 0.7 ? "#f87171" : "#94a3b8";
+      signalsHtml += `<span style="color:${spikeColor};margin-left:6px" title="Binance volume spike">${volSpike.toFixed(1)}x vol</span>`;
+    }
+    if (volDelta != null) {
+      const deltaColor = volDelta >= 0.55 ? "#4ade80" : volDelta <= 0.45 ? "#f87171" : "#94a3b8";
+      signalsHtml += `<span style="color:${deltaColor};margin-left:6px" title="Taker buy %">${Math.round(volDelta*100)}% buy</span>`;
+    }
+
     return `<tr onclick="window.open('${url}','_blank')" title="View on Polymarket">
       <td data-market-id="${r.market_id||""}">${badge}${s==="PENDING"&&!r.low_confidence ? `<div style="margin-top:3px"><span class="live-pnl-cell live-pnl neu" data-pnl-cell-for="${r.market_id||""}" title="Unrealized P&L · updates every 2 min">…</span></div>` : livePnlCell ? `<div style="margin-top:3px">${livePnlCell}</div>` : ""}</td>
       <td>${chip(r.called_direction)}</td>
-      <td class="tq"><div class="tq-text" title="${(r.question||"").replace(/"/g,"&quot;")}">${r.question||"—"}${r.low_confidence?'<span class="lc-tag" title="'+r.low_confidence_reason+'">LOW CONF</span>':''}</div>${outcome}${r.tweet_text?`<div class="tq-tweet">${r.tweet_text.split("\n")[0].substring(0,100)}${r.tweet_text.split("\n")[0].length>100?"…":""}</div>`:""}</td>
+      <td class="tq"><div class="tq-text" title="${(r.question||"").replace(/"/g,"&quot;")}">${r.question||"—"}${r.low_confidence?'<span class="lc-tag" title="'+r.low_confidence_reason+'">LOW CONF</span>':''}</div>${outcome}${signalsHtml ? `<div style="font-size:10px;margin-top:3px;color:var(--muted)">${signalsHtml}</div>` : ""}</td>
       <td class="tp">${yp}</td>
       <td class="td">${fmtDate(r.date)}</td>
     </tr>`;
