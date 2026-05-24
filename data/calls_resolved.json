@@ -727,16 +727,16 @@
     "asset": null,
     "minutes_left": null,
     "resolution_status": "PENDING",
-    "resolved_price": 0.515,
+    "resolved_price": 0.555,
     "resolved_outcome": null,
     "polymarket_url": "https://polymarket.com/event/bitcoin-up-or-down-on-may-25-2026",
-    "current_yes_price": 0.515,
+    "current_yes_price": 0.555,
     "paper_entry_price": 0.535,
     "paper_shares": 186.92,
     "paper_pnl": null,
-    "live_pnl": -3.74,
-    "live_price": 0.515,
-    "live_price_yes": 0.515
+    "live_pnl": 3.74,
+    "live_price": 0.555,
+    "live_price_yes": 0.555
   },
   {
     "date": "2026-05-24T02:22:00.365711+00:00",
@@ -814,16 +814,16 @@
     "asset": null,
     "minutes_left": null,
     "resolution_status": "PENDING",
-    "resolved_price": 0.79,
+    "resolved_price": 0.75,
     "resolved_outcome": null,
-    "current_yes_price": 0.79,
+    "current_yes_price": 0.75,
     "polymarket_url": "https://polymarket.com/event/us-iran-nuclear-deal-before-2027",
     "paper_entry_price": 0.8,
     "paper_shares": 125.0,
     "paper_pnl": null,
-    "live_pnl": -1.25,
-    "live_price": 0.79,
-    "live_price_yes": 0.79
+    "live_pnl": -6.25,
+    "live_price": 0.75,
+    "live_price_yes": 0.75
   },
   {
     "date": "2026-05-24T02:43:02.978280+00:00",
