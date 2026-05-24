@@ -756,16 +756,16 @@
     "asset": null,
     "minutes_left": null,
     "resolution_status": "PENDING",
-    "resolved_price": 0.18,
+    "resolved_price": 0.185,
     "resolved_outcome": null,
-    "current_yes_price": 0.18,
+    "current_yes_price": 0.185,
     "polymarket_url": "https://polymarket.com/event/will-the-us-invade-iran-before-2027",
     "paper_entry_price": 0.835,
     "paper_shares": 119.76,
     "paper_pnl": null,
-    "live_pnl": -1.8,
-    "live_price": 0.82,
-    "live_price_yes": 0.18
+    "live_pnl": -2.4,
+    "live_price": 0.815,
+    "live_price_yes": 0.185
   },
   {
     "date": "2026-05-24T02:29:01.037028+00:00",
