@@ -727,16 +727,16 @@
     "asset": null,
     "minutes_left": null,
     "resolution_status": "PENDING",
-    "resolved_price": 0.52,
+    "resolved_price": 0.51,
     "resolved_outcome": null,
     "polymarket_url": "https://polymarket.com/event/bitcoin-up-or-down-on-may-25-2026",
-    "current_yes_price": 0.52,
+    "current_yes_price": 0.51,
     "paper_entry_price": 0.535,
     "paper_shares": 186.92,
     "paper_pnl": null,
-    "live_pnl": -2.8,
-    "live_price": 0.52,
-    "live_price_yes": 0.52
+    "live_pnl": -4.67,
+    "live_price": 0.51,
+    "live_price_yes": 0.51
   },
   {
     "date": "2026-05-24T02:22:00.365711+00:00",
