@@ -1280,15 +1280,15 @@
     "asset": null,
     "minutes_left": null,
     "resolution_status": "PENDING",
-    "resolved_price": 0.8,
+    "resolved_price": 0.81,
     "resolved_outcome": null,
-    "current_yes_price": 0.8,
+    "current_yes_price": 0.81,
     "polymarket_url": "https://polymarket.com/event/will-donald-trump-visit-turkey-in-2026",
     "paper_entry_price": 0.795,
     "paper_shares": 125.79,
     "paper_pnl": null,
-    "live_pnl": 0.63,
-    "live_price": 0.8,
-    "live_price_yes": 0.8
+    "live_pnl": 1.89,
+    "live_price": 0.81,
+    "live_price_yes": 0.81
   }
 ]
