@@ -785,16 +785,16 @@
     "asset": null,
     "minutes_left": null,
     "resolution_status": "PENDING",
-    "resolved_price": 0.265,
+    "resolved_price": 0.255,
     "resolved_outcome": null,
-    "current_yes_price": 0.265,
+    "current_yes_price": 0.255,
     "polymarket_url": "https://polymarket.com/event/starmer-out-by-june-30-2026-862-594-548-219",
     "paper_entry_price": 0.775,
     "paper_shares": 129.03,
     "paper_pnl": null,
-    "live_pnl": -5.16,
-    "live_price": 0.735,
-    "live_price_yes": 0.265
+    "live_pnl": -3.87,
+    "live_price": 0.745,
+    "live_price_yes": 0.255
   },
   {
     "date": "2026-05-24T02:36:03.777656+00:00",
@@ -1280,15 +1280,15 @@
     "asset": null,
     "minutes_left": null,
     "resolution_status": "PENDING",
-    "resolved_price": 0.825,
+    "resolved_price": 0.805,
     "resolved_outcome": null,
-    "current_yes_price": 0.825,
+    "current_yes_price": 0.805,
     "polymarket_url": "https://polymarket.com/event/will-donald-trump-visit-turkey-in-2026",
     "paper_entry_price": 0.795,
     "paper_shares": 125.79,
     "paper_pnl": null,
-    "live_pnl": 3.77,
-    "live_price": 0.825,
-    "live_price_yes": 0.825
+    "live_pnl": 1.26,
+    "live_price": 0.805,
+    "live_price_yes": 0.805
   }
 ]
