@@ -843,16 +843,16 @@
     "asset": null,
     "minutes_left": null,
     "resolution_status": "PENDING",
-    "resolved_price": 0.575,
+    "resolved_price": 0.58,
     "resolved_outcome": null,
-    "current_yes_price": 0.575,
+    "current_yes_price": 0.58,
     "polymarket_url": "https://polymarket.com/event/will-a-province-schedule-a-referendum-to-leave-canada-before-2027",
     "paper_entry_price": 0.57,
     "paper_shares": 175.44,
     "paper_pnl": null,
-    "live_pnl": 0.88,
-    "live_price": 0.575,
-    "live_price_yes": 0.575
+    "live_pnl": 1.75,
+    "live_price": 0.58,
+    "live_price_yes": 0.58
   },
   {
     "date": "2026-05-24T02:50:07.218740+00:00",
