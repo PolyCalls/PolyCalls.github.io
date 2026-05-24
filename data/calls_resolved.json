@@ -814,16 +814,16 @@
     "asset": null,
     "minutes_left": null,
     "resolution_status": "PENDING",
-    "resolved_price": 0.715,
+    "resolved_price": 0.695,
     "resolved_outcome": null,
-    "current_yes_price": 0.715,
+    "current_yes_price": 0.695,
     "polymarket_url": "https://polymarket.com/event/us-iran-nuclear-deal-before-2027",
     "paper_entry_price": 0.8,
     "paper_shares": 125.0,
     "paper_pnl": null,
-    "live_pnl": -10.63,
-    "live_price": 0.715,
-    "live_price_yes": 0.715
+    "live_pnl": -13.13,
+    "live_price": 0.695,
+    "live_price_yes": 0.695
   },
   {
     "date": "2026-05-24T02:43:02.978280+00:00",
