@@ -1018,16 +1018,16 @@
     "asset": null,
     "minutes_left": null,
     "resolution_status": "PENDING",
-    "resolved_price": 0.53,
+    "resolved_price": 0.52,
     "resolved_outcome": null,
-    "current_yes_price": 0.53,
+    "current_yes_price": 0.52,
     "polymarket_url": "https://polymarket.com/event/new-rhianna-album-before-gta-vi-926",
     "paper_entry_price": 0.54,
     "paper_shares": 185.19,
     "paper_pnl": null,
-    "live_pnl": -1.85,
-    "live_price": 0.53,
-    "live_price_yes": 0.53
+    "live_pnl": -3.7,
+    "live_price": 0.52,
+    "live_price_yes": 0.52
   },
   {
     "date": "2026-05-24T03:34:17.593510+00:00",
