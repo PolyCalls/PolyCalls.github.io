@@ -1,1 +1,33 @@
-[]
+[
+  {
+    "date": "2026-05-25T15:48:12.125388+00:00",
+    "market_id": "15m_2347193",
+    "question": "XRP Up or Down - May 25, 11:45AM-12:00PM ET",
+    "yes_price": 0.465,
+    "edge_score": 24.0,
+    "category": "Crypto-15M",
+    "model": "gemma3:12b",
+    "tweet_count": 1,
+    "tweet_text": "XRP 15-min \u2014 46% UP on Polymarket. XRP at $1.3602. 4/7 indicators UP: RSI(14) = 74.36, Price above VWAP (1.3593). Binance volume delta: 39% taker buy volume (sellers dominating). Calling UP.\nhttps://polymarket.com/event/xrp-updown-15m-1779723900",
+    "posted": true,
+    "is_15min_market": true,
+    "is_5min_market": false,
+    "slug": "xrp-updown-15m-1779723900",
+    "called_direction": "UP",
+    "call_pct": 46.5,
+    "asset": "XRP",
+    "minutes_left": 12.6,
+    "indicator_consensus": 4,
+    "resolution_status": "PENDING",
+    "resolved_price": 0.465,
+    "resolved_outcome": null,
+    "polymarket_url": "https://polymarket.com/event/xrp-updown-15m-1779723900",
+    "current_yes_price": 0.465,
+    "paper_entry_price": 0.465,
+    "paper_shares": 215.05,
+    "paper_pnl": null,
+    "live_pnl": 0.0,
+    "live_price": 0.465,
+    "live_price_yes": 0.465
+  }
+]
