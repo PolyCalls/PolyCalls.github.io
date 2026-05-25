@@ -19,16 +19,16 @@
     "minutes_left": 12.6,
     "indicator_consensus": 4,
     "resolution_status": "PENDING",
-    "resolved_price": 0.425,
+    "resolved_price": 0.17,
     "resolved_outcome": null,
     "polymarket_url": "https://polymarket.com/event/xrp-updown-15m-1779723900",
-    "current_yes_price": 0.425,
+    "current_yes_price": 0.17,
     "paper_entry_price": 0.465,
     "paper_shares": 215.05,
     "paper_pnl": null,
-    "live_pnl": -8.6,
-    "live_price": 0.425,
-    "live_price_yes": 0.425
+    "live_pnl": -63.44,
+    "live_price": 0.17,
+    "live_price_yes": 0.17
   },
   {
     "date": "2026-05-25T15:53:03.893211+00:00",
@@ -50,15 +50,15 @@
     "minutes_left": 7.5,
     "indicator_consensus": 4,
     "resolution_status": "PENDING",
-    "resolved_price": 0.335,
+    "resolved_price": 0.955,
     "resolved_outcome": null,
     "polymarket_url": "https://polymarket.com/event/eth-updown-15m-1779723900",
-    "current_yes_price": 0.335,
+    "current_yes_price": 0.955,
     "paper_entry_price": 0.335,
     "paper_shares": 298.51,
     "paper_pnl": null,
-    "live_pnl": 0.0,
-    "live_price": 0.335,
-    "live_price_yes": 0.335
+    "live_pnl": 185.07,
+    "live_price": 0.955,
+    "live_price_yes": 0.955
   }
 ]
