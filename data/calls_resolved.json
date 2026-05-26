@@ -531,16 +531,16 @@
     "minutes_left": 9.5,
     "indicator_consensus": 6,
     "resolution_status": "PENDING",
-    "resolved_price": 0.405,
+    "resolved_price": 0.415,
     "resolved_outcome": null,
     "polymarket_url": "https://polymarket.com/event/btc-updown-15m-1779792300",
-    "current_yes_price": 0.405,
+    "current_yes_price": 0.415,
     "paper_entry_price": 0.375,
     "paper_shares": 266.67,
     "paper_pnl": null,
-    "live_pnl": 8.0,
-    "live_price": 0.405,
-    "live_price_yes": 0.405
+    "live_pnl": 10.67,
+    "live_price": 0.415,
+    "live_price_yes": 0.415
   },
   {
     "date": "2026-05-26T10:56:21.245426+00:00",
@@ -561,16 +561,16 @@
     "asset": "Solana",
     "minutes_left": 4.2,
     "indicator_consensus": 6,
-    "resolution_status": "PENDING",
-    "resolved_price": 0.185,
-    "resolved_outcome": null,
+    "resolution_status": "WIN",
+    "resolved_price": 0.005,
+    "resolved_outcome": "DOWN",
     "polymarket_url": "https://polymarket.com/event/sol-updown-15m-1779792300",
-    "current_yes_price": 0.185,
+    "current_yes_price": 0.005,
     "paper_entry_price": 0.815,
     "paper_shares": 122.7,
-    "paper_pnl": null,
-    "live_pnl": 0.0,
-    "live_price": 0.815,
-    "live_price_yes": 0.185
+    "paper_pnl": 22.7,
+    "live_pnl": null,
+    "live_price": null,
+    "live_price_yes": null
   }
 ]
