@@ -659,15 +659,15 @@
     "minutes_left": 9.2,
     "indicator_consensus": 6,
     "resolution_status": "PENDING",
-    "resolved_price": 0.415,
+    "resolved_price": 0.61,
     "resolved_outcome": null,
     "polymarket_url": "https://polymarket.com/event/sol-updown-15m-1779795000",
-    "current_yes_price": 0.415,
+    "current_yes_price": 0.61,
     "paper_entry_price": 0.295,
     "paper_shares": 338.98,
     "paper_pnl": null,
-    "live_pnl": 98.31,
-    "live_price": 0.585,
-    "live_price_yes": 0.415
+    "live_pnl": 32.2,
+    "live_price": 0.39,
+    "live_price_yes": 0.61
   }
 ]
