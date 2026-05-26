@@ -1234,16 +1234,17 @@
     "asset": "Bitcoin",
     "minutes_left": 10.0,
     "indicator_consensus": 7,
-    "resolution_status": "PENDING",
-    "resolved_price": 0.425,
-    "resolved_outcome": null,
+    "resolution_status": "LOSS",
+    "resolved_price": 1.0,
+    "resolved_outcome": "UP",
     "polymarket_url": "https://polymarket.com/event/btc-updown-15m-1779813900",
-    "current_yes_price": 0.425,
+    "current_yes_price": 1.0,
+    "resolved_at": "2026-05-26T17:00:00Z",
     "paper_entry_price": 0.425,
     "paper_shares": 235.29,
-    "paper_pnl": null,
-    "live_pnl": 35.29,
-    "live_price": 0.575,
-    "live_price_yes": 0.425
+    "paper_pnl": -100.0,
+    "live_pnl": null,
+    "live_price": null,
+    "live_price_yes": null
   }
 ]
