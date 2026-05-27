@@ -304,6 +304,63 @@
 
   /* ── BREAKDOWN (right col) ── */
 
+  /* ── PER-ASSET CARDS ── */
+  .asset-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .asset-card-head {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .asset-name {
+    font-size: 13px; font-weight: 700; color: var(--text);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .asset-icon {
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; color: #fff;
+    flex-shrink: 0;
+  }
+  .asset-icon.btc  { background: #F7931A; }
+  .asset-icon.eth  { background: #627EEA; }
+  .asset-icon.sol  { background: #9945FF; }
+  .asset-icon.xrp  { background: #00AAE4; }
+  .asset-wr {
+    font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums;
+  }
+  .asset-wr.great   { color: var(--green); }
+  .asset-wr.ok      { color: var(--amber); }
+  .asset-wr.bad     { color: var(--red); }
+  .asset-wr.none    { color: var(--muted); }
+  .asset-record {
+    font-size: 11px; color: var(--muted2); font-variant-numeric: tabular-nums;
+  }
+  .asset-pnl {
+    font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums;
+  }
+  .asset-pnl.pos { color: var(--green); }
+  .asset-pnl.neg { color: var(--red); }
+  .asset-pnl.neu { color: var(--muted); }
+  .asset-bar-wrap {
+    width: 100%; height: 4px; background: var(--border);
+    border-radius: 2px; overflow: hidden;
+  }
+  .asset-bar-fill {
+    height: 100%; border-radius: 2px;
+    transition: width .4s ease;
+  }
+  .asset-bar-fill.great { background: var(--green); }
+  .asset-bar-fill.ok    { background: var(--amber); }
+  .asset-bar-fill.bad   { background: var(--red); }
+  .asset-bar-fill.none  { background: var(--border); }
+  .asset-no-calls {
+    font-size: 11px; color: var(--muted); font-style: italic;
+  }
+
   /* ── FOOTER ── */
   .footer-bar {
     grid-column: 1/-1;
@@ -452,7 +509,7 @@
     .feed-filters { padding: 8px 12px; gap: 6px; }
     .fb { font-size: 11px; height: 28px; padding: 0 12px; }
 
-    /* 10. Right col (by category): wrapping tiles */
+    /* 10. Right col (per-asset): wrapping tiles */
     #right-col {
       display: flex !important;
       flex-direction: row;
@@ -462,7 +519,7 @@
       padding: 12px;
       gap: 8px;
     }
-    .bk-card { flex: 1 1 130px; margin: 0; }
+    .asset-card { flex: 1 1 130px; margin: 0; }
 
     /* 11. Footer */
     .footer-bar { flex-direction: column; gap: 4px; text-align: center; padding: 12px 14px; }
@@ -506,9 +563,9 @@
     .feed-filters { padding: 8px 10px; gap: 5px; }
     .fb { font-size: 10px; height: 26px; padding: 0 10px; }
 
-    /* Category: 2-column grid */
+    /* Asset cards: 2-column grid */
     #right-col { padding: 10px; gap: 6px; }
-    .bk-card { flex: 1 1 calc(50% - 6px); }
+    .asset-card { flex: 1 1 calc(50% - 6px); }
   }
 
   /* ── Very small (≤380px): iPhone SE / compact Android ── */
@@ -524,7 +581,7 @@
       max-width: calc(100vw - 24px);
     }
     .feed-table { font-size: 10px; }
-    .bk-card { flex: 1 1 100%; }
+    .asset-card { flex: 1 1 100%; }
     .fb { font-size: 10px; padding: 0 8px; }
   }
 </style>
@@ -596,12 +653,12 @@
       </div>
     </div>
 
-    <!-- RIGHT: Category Breakdown -->
+    <!-- RIGHT: Per-Asset Breakdown -->
     <div class="col" style="border-left:1px solid var(--border)">
       <div class="col-head">
-        <div class="col-title">By Category</div>
+        <div class="col-title">By Asset</div>
       </div>
-      <div class="col-body" id="right-col">
+      <div class="col-body" id="right-col" style="padding:12px;display:flex;flex-direction:column;gap:8px;overflow-y:auto">
       </div>
     </div>
 
@@ -754,6 +811,7 @@ function render() {
 
   renderOpenCalls();
   renderCenter();
+  renderRight();
   setTimeout(startLiveRefresh, 300);
 }
 
@@ -854,6 +912,69 @@ function renderCenter() {
 
 
 
+
+// ── Per-Asset Breakdown ───────────────────────────────────────────────────────
+function renderRight() {
+  const col = document.getElementById("right-col");
+  if (!col) return;
+
+  const ASSETS = [
+    { key: "Bitcoin",  slug: "btc", label: "BTC" },
+    { key: "Ethereum", slug: "eth", label: "ETH" },
+    { key: "Solana",   slug: "sol", label: "SOL" },
+    { key: "XRP",      slug: "xrp", label: "XRP" },
+  ];
+
+  const genuine = allData.filter(r => !r.low_confidence);
+
+  const cards = ASSETS.map(({ key, slug, label }) => {
+    const calls   = genuine.filter(r => (r.asset || "").includes(key) || (r.asset_slug || "") === slug);
+    const settled = calls.filter(r => r.resolution_status === "WIN" || r.resolution_status === "LOSS");
+    const wins    = settled.filter(r => r.resolution_status === "WIN").length;
+    const losses  = settled.length - wins;
+    const pending = calls.filter(r => r.resolution_status === "PENDING").length;
+    const wr      = settled.length > 0 ? wins / settled.length * 100 : null;
+    const pnl     = settled.reduce((sum, r) => sum + (r.paper_pnl || 0), 0);
+
+    const wrClass = wr === null ? "none" : wr >= 65 ? "great" : wr >= 45 ? "ok" : "bad";
+    const wrStr   = wr !== null ? wr.toFixed(0) + "%" : "—";
+    const pnlClass = pnl > 0 ? "pos" : pnl < 0 ? "neg" : "neu";
+    const pnlStr  = (pnl >= 0 ? "+" : "") + "$" + Math.abs(pnl).toFixed(2);
+    const barPct  = wr !== null ? wr.toFixed(1) : "0";
+
+    const pendingNote = pending > 0
+      ? `<span style="font-size:10px;color:var(--amber);margin-left:4px">${pending} live</span>`
+      : "";
+
+    const bodyHtml = settled.length === 0
+      ? `<div class="asset-no-calls">No settled calls yet</div>`
+      : `
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="asset-record">${wins}W / ${losses}L${pending > 0 ? " · " + pending + " live" : ""}</div>
+          <div class="asset-pnl ${pnlClass}">${pnlStr}</div>
+        </div>
+        <div class="asset-bar-wrap">
+          <div class="asset-bar-fill ${wrClass}" style="width:${barPct}%"></div>
+        </div>
+      `;
+
+    return `
+      <div class="asset-card">
+        <div class="asset-card-head">
+          <div class="asset-name">
+            <div class="asset-icon ${slug}">${label}</div>
+            ${label}
+          </div>
+          <div class="asset-wr ${wrClass}">${wrStr}</div>
+        </div>
+        ${bodyHtml}
+      </div>
+    `;
+  }).join("");
+
+  col.innerHTML = cards;
+}
+// ── End Per-Asset Breakdown ───────────────────────────────────────────────────
 
 // ── Live P&L Refresh Engine ───────────────────────────────────────────────────
 // Fetches current Polymarket prices directly from the browser every 2 minutes
