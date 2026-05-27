@@ -2163,15 +2163,15 @@
     "minutes_left": 5.9,
     "indicator_consensus": 7,
     "resolution_status": "PENDING",
-    "resolved_price": 0.06,
+    "resolved_price": 0.015,
     "resolved_outcome": null,
     "polymarket_url": "https://polymarket.com/event/xrp-updown-15m-1779847200",
-    "current_yes_price": 0.06,
+    "current_yes_price": 0.015,
     "paper_entry_price": 0.94,
     "paper_shares": 106.38,
     "paper_pnl": null,
-    "live_pnl": 0.0,
-    "live_price": 0.94,
-    "live_price_yes": 0.06
+    "live_pnl": 4.79,
+    "live_price": 0.985,
+    "live_price_yes": 0.015
   }
 ]
