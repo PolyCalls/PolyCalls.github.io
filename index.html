@@ -447,7 +447,7 @@
     .feed-table td, .feed-table th { padding: 8px 6px; }
     .feed-table thead th:nth-child(4),
     .feed-table td:nth-child(4) { display: none; }
-    .feed-table th:nth-child(1), .feed-table td:nth-child(1) { width: 70px; }
+    .feed-table th:nth-child(1), .feed-table td:nth-child(1) { width: 82px; }
     .feed-table th:nth-child(2), .feed-table td:nth-child(2) { width: 44px; }
     .feed-filters { padding: 8px 12px; gap: 6px; }
     .fb { font-size: 11px; height: 28px; padding: 0 12px; }
@@ -830,8 +830,13 @@ function renderCenter() {
       signalsHtml += `<span style="color:${deltaColor};margin-left:6px" title="Taker buy %">${Math.round(volDelta*100)}% buy</span>`;
     }
 
+    // Settled P&L: show exact amount won/lost for WIN and LOSS rows
+    const settledPnlHtml = (s === "WIN" || s === "LOSS") && r.paper_pnl != null
+      ? `<div style="margin-top:3px"><span class="live-pnl ${r.paper_pnl >= 0 ? "pos" : "neg"}" title="Paper P&amp;L on this call">${r.paper_pnl >= 0 ? "+" : ""}$${Math.abs(r.paper_pnl).toFixed(2)}</span></div>`
+      : "";
+
     return `<tr onclick="window.open('${url}','_blank')" title="View on Polymarket">
-      <td data-market-id="${r.market_id||""}">${badge}${s==="PENDING"&&!r.low_confidence ? `<div style="margin-top:3px"><span class="live-pnl-cell live-pnl neu" data-pnl-cell-for="${r.market_id||""}" title="Unrealized P&L · updates every 2 min">…</span></div>` : livePnlCell ? `<div style="margin-top:3px">${livePnlCell}</div>` : ""}</td>
+      <td data-market-id="${r.market_id||""}">${badge}${s==="PENDING"&&!r.low_confidence ? `<div style="margin-top:3px"><span class="live-pnl-cell live-pnl neu" data-pnl-cell-for="${r.market_id||""}" title="Unrealized P&L · updates every 2 min">…</span></div>` : livePnlCell ? `<div style="margin-top:3px">${livePnlCell}</div>` : settledPnlHtml}</td>
       <td>${chip(r.called_direction)}</td>
       <td class="tq"><div class="tq-text" title="${(r.question||"").replace(/"/g,"&quot;")}">${r.question||"—"}${r.low_confidence?'<span class="lc-tag" title="'+r.low_confidence_reason+'">LOW CONF</span>':''}</div>${outcome}${signalsHtml ? `<div style="font-size:10px;margin-top:3px;color:var(--muted)">${signalsHtml}</div>` : ""}</td>
       <td class="tp">${yp}</td>
