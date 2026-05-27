@@ -3826,16 +3826,16 @@
     "asset": "Ethereum",
     "minutes_left": 8.6,
     "indicator_consensus": 8,
-    "resolution_status": "PENDING",
-    "resolved_price": 0.605,
-    "resolved_outcome": null,
+    "resolution_status": "WIN",
+    "resolved_price": 0.9995,
+    "resolved_outcome": "UP",
     "polymarket_url": "https://polymarket.com/event/eth-updown-15m-1779912000",
-    "current_yes_price": 0.605,
+    "current_yes_price": 0.9995,
     "paper_entry_price": 0.605,
     "paper_shares": 165.29,
-    "paper_pnl": null,
-    "live_pnl": 0.0,
-    "live_price": 0.605,
-    "live_price_yes": 0.605
+    "paper_pnl": 65.29,
+    "live_pnl": null,
+    "live_price": null,
+    "live_price_yes": null
   }
 ]
