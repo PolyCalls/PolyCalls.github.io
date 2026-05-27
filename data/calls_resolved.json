@@ -2482,16 +2482,16 @@
     "asset": "Bitcoin",
     "minutes_left": 9.8,
     "indicator_consensus": 6,
-    "resolution_status": "PENDING",
-    "resolved_price": 0.965,
-    "resolved_outcome": null,
+    "resolution_status": "WIN",
+    "resolved_price": 0.995,
+    "resolved_outcome": "UP",
     "polymarket_url": "https://polymarket.com/event/btc-updown-15m-1779857100",
-    "current_yes_price": 0.965,
+    "current_yes_price": 0.995,
     "paper_entry_price": 0.775,
     "paper_shares": 129.03,
-    "paper_pnl": null,
-    "live_pnl": 24.52,
-    "live_price": 0.965,
-    "live_price_yes": 0.965
+    "paper_pnl": 29.03,
+    "live_pnl": null,
+    "live_price": null,
+    "live_price_yes": null
   }
 ]
