@@ -2930,16 +2930,17 @@
     "asset": "Solana",
     "minutes_left": 9.0,
     "indicator_consensus": 6,
-    "resolution_status": "PENDING",
-    "resolved_price": 0.09,
-    "resolved_outcome": null,
+    "resolution_status": "WIN",
+    "resolved_price": 0.0,
+    "resolved_outcome": "DOWN",
     "polymarket_url": "https://polymarket.com/event/sol-updown-15m-1779872400",
-    "current_yes_price": 0.09,
+    "current_yes_price": 0.0,
+    "resolved_at": "2026-05-27T09:15:00Z",
     "paper_entry_price": 0.84,
     "paper_shares": 119.05,
-    "paper_pnl": null,
-    "live_pnl": 8.33,
-    "live_price": 0.91,
-    "live_price_yes": 0.09
+    "paper_pnl": 19.05,
+    "live_pnl": null,
+    "live_price": null,
+    "live_price_yes": null
   }
 ]
