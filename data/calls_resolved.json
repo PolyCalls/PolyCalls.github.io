@@ -3506,16 +3506,17 @@
     "asset": "Ethereum",
     "minutes_left": 5.4,
     "indicator_consensus": 6,
-    "resolution_status": "PENDING",
-    "resolved_price": 0.725,
-    "resolved_outcome": null,
+    "resolution_status": "LOSS",
+    "resolved_price": 1.0,
+    "resolved_outcome": "UP",
     "polymarket_url": "https://polymarket.com/event/eth-updown-15m-1779896700",
-    "current_yes_price": 0.725,
+    "current_yes_price": 1.0,
+    "resolved_at": "2026-05-27T16:00:00Z",
     "paper_entry_price": 0.275,
     "paper_shares": 363.64,
-    "paper_pnl": null,
-    "live_pnl": 0.0,
-    "live_price": 0.275,
-    "live_price_yes": 0.725
+    "paper_pnl": -100.0,
+    "live_pnl": null,
+    "live_price": null,
+    "live_price_yes": null
   }
 ]
